@@ -1,0 +1,5 @@
+comenzar -> delimitador de bloco: iniciar
+ent -> tipo de dado: inteiro
+a -> identificador
+;; -> quebra de linha/próxima instrução
+a -> identificador
