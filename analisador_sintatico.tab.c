@@ -138,20 +138,20 @@ enum yysymbol_kind_t
   YYSYMBOL_HASH_HASH = 26,                 /* HASH_HASH  */
   YYSYMBOL_EXCL_EXCL = 27,                 /* EXCL_EXCL  */
   YYSYMBOL_SEMI_SEMI = 28,                 /* SEMI_SEMI  */
-  YYSYMBOL_LBLOCK_DELIMITER = 29,          /* LBLOCK_DELIMITER  */
-  YYSYMBOL_RBLOCK_DELIMITER = 30,          /* RBLOCK_DELIMITER  */
-  YYSYMBOL_LPAREN = 31,                    /* LPAREN  */
-  YYSYMBOL_RPAREN = 32,                    /* RPAREN  */
-  YYSYMBOL_COLON = 33,                     /* COLON  */
-  YYSYMBOL_GT_RELATIONAL = 34,             /* GT_RELATIONAL  */
-  YYSYMBOL_LT_RELATIONAL = 35,             /* LT_RELATIONAL  */
-  YYSYMBOL_GE_RELATIONAL = 36,             /* GE_RELATIONAL  */
-  YYSYMBOL_LE_RELATIONAL = 37,             /* LE_RELATIONAL  */
-  YYSYMBOL_AND_LOGICAL = 38,               /* AND_LOGICAL  */
-  YYSYMBOL_OR_LOGICAL = 39,                /* OR_LOGICAL  */
-  YYSYMBOL_NOT_LOGICAL = 40,               /* NOT_LOGICAL  */
-  YYSYMBOL_ID_TOKEN = 41,                  /* ID_TOKEN  */
-  YYSYMBOL_STRING_LITERAL = 42,            /* STRING_LITERAL  */
+  YYSYMBOL_LPAREN = 29,                    /* LPAREN  */
+  YYSYMBOL_RPAREN = 30,                    /* RPAREN  */
+  YYSYMBOL_COLON = 31,                     /* COLON  */
+  YYSYMBOL_GT_RELATIONAL = 32,             /* GT_RELATIONAL  */
+  YYSYMBOL_LT_RELATIONAL = 33,             /* LT_RELATIONAL  */
+  YYSYMBOL_GE_RELATIONAL = 34,             /* GE_RELATIONAL  */
+  YYSYMBOL_LE_RELATIONAL = 35,             /* LE_RELATIONAL  */
+  YYSYMBOL_EQ_RELATIONAL = 36,             /* EQ_RELATIONAL  */
+  YYSYMBOL_AND_LOGICAL = 37,               /* AND_LOGICAL  */
+  YYSYMBOL_OR_LOGICAL = 38,                /* OR_LOGICAL  */
+  YYSYMBOL_NOT_LOGICAL = 39,               /* NOT_LOGICAL  */
+  YYSYMBOL_ID_TOKEN = 40,                  /* ID_TOKEN  */
+  YYSYMBOL_STRING_LITERAL = 41,            /* STRING_LITERAL  */
+  YYSYMBOL_CHAR_LITERAL = 42,              /* CHAR_LITERAL  */
   YYSYMBOL_INT_LITERAL = 43,               /* INT_LITERAL  */
   YYSYMBOL_FLOAT_LITERAL = 44,             /* FLOAT_LITERAL  */
   YYSYMBOL_YYACCEPT = 45,                  /* $accept  */
@@ -159,16 +159,19 @@ enum yysymbol_kind_t
   YYSYMBOL_lista_comandos = 47,            /* lista_comandos  */
   YYSYMBOL_comando = 48,                   /* comando  */
   YYSYMBOL_atribuicao = 49,                /* atribuicao  */
-  YYSYMBOL_entrada = 50,                   /* entrada  */
-  YYSYMBOL_saida = 51,                     /* saida  */
-  YYSYMBOL_condicional = 52,               /* condicional  */
-  YYSYMBOL_cambio_stmt = 53,               /* cambio_stmt  */
-  YYSYMBOL_lista_casos = 54,               /* lista_casos  */
-  YYSYMBOL_caso_stmt = 55,                 /* caso_stmt  */
-  YYSYMBOL_repeticao = 56,                 /* repeticao  */
-  YYSYMBOL_repeticao_for = 57,             /* repeticao_for  */
-  YYSYMBOL_expressao = 58,                 /* expressao  */
-  YYSYMBOL_condicao = 59                   /* condicao  */
+  YYSYMBOL_declaracao = 50,                /* declaracao  */
+  YYSYMBOL_entrada_dados = 51,             /* entrada_dados  */
+  YYSYMBOL_saida = 52,                     /* saida  */
+  YYSYMBOL_lista_itens_saida = 53,         /* lista_itens_saida  */
+  YYSYMBOL_item_saida = 54,                /* item_saida  */
+  YYSYMBOL_condicional = 55,               /* condicional  */
+  YYSYMBOL_cambio_stmt = 56,               /* cambio_stmt  */
+  YYSYMBOL_lista_casos = 57,               /* lista_casos  */
+  YYSYMBOL_caso_stmt = 58,                 /* caso_stmt  */
+  YYSYMBOL_repeticao = 59,                 /* repeticao  */
+  YYSYMBOL_repeticao_for = 60,             /* repeticao_for  */
+  YYSYMBOL_expressao = 61,                 /* expressao  */
+  YYSYMBOL_condicao = 62                   /* condicao  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -285,7 +288,7 @@ typedef int yytype_uint16;
 
 
 /* Stored state numbers (used for stacks). */
-typedef yytype_int8 yy_state_t;
+typedef yytype_uint8 yy_state_t;
 
 /* State numbers in computations.  */
 typedef int yy_state_fast_t;
@@ -494,18 +497,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  20
+#define YYFINAL  23
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   133
+#define YYLAST   154
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  45
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  15
+#define YYNNTS  18
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  43
+#define YYNRULES  53
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  114
+#define YYNSTATES  130
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   299
@@ -558,11 +561,12 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    52,    52,    59,    60,    64,    65,    66,    67,    68,
-      69,    70,    74,    83,    88,    96,   101,   109,   114,   122,
-     130,   131,   135,   139,   144,   152,   160,   167,   172,   178,
-     184,   190,   196,   202,   208,   214,   221,   227,   233,   239,
-     245,   251,   257,   262
+       0,    51,    51,    58,    59,    63,    64,    65,    66,    67,
+      68,    69,    70,    74,    83,    88,    93,   101,   109,   116,
+     121,   130,   135,   141,   149,   154,   162,   170,   171,   175,
+     179,   184,   189,   197,   205,   212,   217,   222,   228,   234,
+     240,   246,   252,   258,   264,   271,   277,   283,   289,   295,
+     301,   307,   313,   318
 };
 #endif
 
@@ -584,12 +588,12 @@ static const char *const yytname[] =
   "POR_TOKEN", "DIVIDIDO_TOKEN", "RESTO_TOKEN", "COMENZAR_TOKEN",
   "FIN_TOKEN", "ATRIB_TOKEN", "AMPERSAND_TOKEN", "LE_INPUT_TOKEN",
   "HASH_TOKEN", "ARROW_TOKEN", "LBRACKET", "RBRACKET", "HASH_HASH",
-  "EXCL_EXCL", "SEMI_SEMI", "LBLOCK_DELIMITER", "RBLOCK_DELIMITER",
-  "LPAREN", "RPAREN", "COLON", "GT_RELATIONAL", "LT_RELATIONAL",
-  "GE_RELATIONAL", "LE_RELATIONAL", "AND_LOGICAL", "OR_LOGICAL",
-  "NOT_LOGICAL", "ID_TOKEN", "STRING_LITERAL", "INT_LITERAL",
-  "FLOAT_LITERAL", "$accept", "programa", "lista_comandos", "comando",
-  "atribuicao", "entrada", "saida", "condicional", "cambio_stmt",
+  "EXCL_EXCL", "SEMI_SEMI", "LPAREN", "RPAREN", "COLON", "GT_RELATIONAL",
+  "LT_RELATIONAL", "GE_RELATIONAL", "LE_RELATIONAL", "EQ_RELATIONAL",
+  "AND_LOGICAL", "OR_LOGICAL", "NOT_LOGICAL", "ID_TOKEN", "STRING_LITERAL",
+  "CHAR_LITERAL", "INT_LITERAL", "FLOAT_LITERAL", "$accept", "programa",
+  "lista_comandos", "comando", "atribuicao", "declaracao", "entrada_dados",
+  "saida", "lista_itens_saida", "item_saida", "condicional", "cambio_stmt",
   "lista_casos", "caso_stmt", "repeticao", "repeticao_for", "expressao",
   "condicao", YY_NULLPTR
 };
@@ -601,7 +605,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-32)
+#define YYPACT_NINF (-33)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -613,20 +617,21 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-static const yytype_int8 yypact[] =
+static const yytype_int16 yypact[] =
 {
-      -1,     9,     8,   -31,   -20,   -13,   -10,   -16,   -11,    15,
-      13,    25,     9,    22,    41,    52,   -32,   -32,   -32,   -32,
-     -32,    54,     4,    46,     4,    61,    69,   -15,    -7,   -32,
-     -32,   -32,   -32,   -32,   -32,     4,     4,   -32,   -32,   -32,
-      62,    28,    71,    68,     4,   -32,    53,   -32,    -7,    98,
-      49,    70,   -32,    -7,    -7,    -7,    -7,    -7,    -7,    -7,
-      -7,    -7,    84,     4,     4,    87,    88,     1,    93,    -9,
-     -32,   -32,    56,    56,   -32,   -32,   -32,    98,    98,    98,
-      98,     9,   -32,    81,   111,     9,   -16,   -32,   103,    74,
-     104,   111,   105,   107,   118,    94,    95,    96,   -32,   -32,
-     -32,     9,   109,     9,     9,     9,   112,     9,   -32,   -32,
-     -32,   -32,   113,   -32
+     -12,    48,     6,   -32,   -31,   -29,   -17,   -15,   -10,     7,
+      17,    32,    42,    51,    48,    49,    54,    55,    57,   -33,
+     -33,   -33,   -33,   -33,   -33,   -33,   -33,   -22,    46,   -22,
+      60,    68,    56,   -16,   -33,   -33,   -33,   -33,   -33,   -33,
+     -22,   -22,   -33,   -33,   -33,   -33,    59,    77,    72,    86,
+     -22,   -33,    93,   -16,   -33,   -33,    91,   116,   116,    30,
+      88,   -33,   -16,   -16,   -16,   -16,   -16,   -16,   -16,   -16,
+     -16,   -16,   117,   -22,   -22,   118,   119,    40,   112,    97,
+      56,   -33,   -33,    15,    15,   -33,   -33,   -33,   116,   116,
+     116,   116,   116,    48,   -33,   101,   130,    48,     7,   -33,
+     -33,   122,    79,   123,   130,   124,   126,   137,   114,   115,
+     120,   121,   -33,   -33,   -33,    48,   131,    48,    48,    48,
+      48,   129,    48,   -33,   -33,   -33,   -33,   -33,   132,   -33
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -635,106 +640,114 @@ static const yytype_int8 yypact[] =
 static const yytype_int8 yydefact[] =
 {
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     3,     0,     0,     0,     8,    11,     9,    10,
-       1,     0,     0,     0,     0,     0,     0,     0,     0,     2,
-       4,     5,     6,     7,    13,     0,     0,    27,    28,    29,
-       0,     0,     0,     0,     0,    14,     0,    16,     0,    12,
-       0,     0,    42,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     3,     0,     0,     0,     0,     9,
+      12,    10,    11,     1,    14,    15,    16,     0,     0,     0,
+       0,     0,     0,     0,     2,     4,     5,     6,     7,     8,
+       0,     0,    35,    36,    37,    38,     0,     0,     0,     0,
+       0,    17,     0,     0,    22,    18,    19,    23,    13,     0,
+       0,    52,     0,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-      35,    43,    30,    31,    32,    33,    34,    36,    37,    38,
-      39,     0,    40,    41,     0,     0,     0,    15,     0,     0,
-       0,    20,     0,     0,    17,     0,     0,     0,    19,    21,
-      25,     0,     0,     0,     0,     0,     0,     0,    24,    23,
-      22,    26,     0,    18
+       0,    44,    53,    39,    40,    41,    42,    43,    45,    47,
+      48,    49,    46,     0,    50,    51,     0,     0,     0,    21,
+      20,     0,     0,     0,    27,     0,     0,    24,     0,     0,
+       0,     0,    26,    28,    33,     0,     0,     0,     0,     0,
+       0,     0,     0,    32,    30,    31,    29,    34,     0,    25
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -32,   -32,   -12,   -32,    -6,   -32,   -32,   -32,   -32,    42,
-     -32,   -32,   -32,    -2,   -22
+     -33,   -33,   -14,   -33,    -8,   -33,   -33,   -33,    69,   -33,
+     -33,   -33,    50,   -33,   -33,   -33,   -30,   -25
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     2,    11,    12,    13,    14,    15,    16,    17,    90,
-      91,    18,    19,    40,    41
+       0,     2,    13,    14,    15,    16,    17,    18,    55,    56,
+      19,    20,   103,   104,    21,    22,    46,    47
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
    positive, shift that token.  If negative, reduce the rule whose
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
-static const yytype_int8 yytable[] =
+static const yytype_uint8 yytable[] =
 {
-      30,    25,    43,    53,    54,    55,    56,    57,    20,    46,
-      21,    22,     3,    51,    52,     4,     1,     5,    23,     6,
-       7,    24,    67,    70,    48,    10,    49,    47,    86,     8,
-      26,     9,    28,    50,    37,    35,    38,    39,    27,    63,
-      64,    82,    83,    29,    36,    37,    69,    38,    39,    31,
-      10,    72,    73,    74,    75,    76,    77,    78,    79,    80,
-      62,    53,    54,    55,    56,    57,    63,    64,    32,    88,
-      55,    56,    57,    92,    53,    54,    55,    56,    57,    33,
-      93,    70,    34,    58,    59,    60,    61,    42,    44,   106,
-      45,   108,   109,   110,    68,   112,    58,    59,    60,    61,
-      66,    81,    71,    65,    84,    85,    63,    64,    63,    64,
-      53,    54,    55,    56,    57,    95,    96,    97,    87,    63,
-      89,    94,    98,   100,   101,   102,   107,   103,   104,   105,
-     111,   113,     0,    99
+      35,    30,    57,    58,    49,     1,    23,    40,    24,    25,
+      59,    26,    27,    53,    28,    60,    61,    41,    42,    29,
+      43,    44,    45,    79,    42,    77,    43,    44,    45,    64,
+      65,    66,    83,    84,    85,    86,    87,    88,    89,    90,
+      91,    92,    62,    63,    64,    65,    66,    12,    94,    95,
+      57,     3,     4,     5,     6,    32,     7,    31,     8,     9,
+      81,    33,    67,    68,    69,    70,    71,    98,    10,    34,
+      11,    62,    63,    64,    65,    66,    36,    73,    74,   101,
+      52,    37,    38,   105,    39,    53,    48,    50,    12,    51,
+     106,    67,    68,    69,    70,    71,    42,    54,    43,    44,
+      45,   121,    75,   123,   124,   125,   126,    72,   128,    62,
+      63,    64,    65,    66,    73,    74,    76,    80,    82,   108,
+     109,   110,   111,    73,    74,    73,    74,    81,    62,    63,
+      64,    65,    66,    78,    93,    96,    97,    99,    73,   102,
+     107,   112,   114,   115,   116,   117,   118,   127,   122,   100,
+     129,   119,   120,     0,   113
 };
 
 static const yytype_int8 yycheck[] =
 {
-      12,     7,    24,    12,    13,    14,    15,    16,     0,    24,
-      41,    31,     3,    35,    36,     6,    17,     8,    31,    10,
-      11,    31,    44,    32,    31,    41,    28,    42,    27,    20,
-      41,    22,    19,    35,    41,    31,    43,    44,    23,    38,
-      39,    63,    64,    18,    40,    41,    48,    43,    44,    27,
-      41,    53,    54,    55,    56,    57,    58,    59,    60,    61,
-      32,    12,    13,    14,    15,    16,    38,    39,    27,    81,
-      14,    15,    16,    85,    12,    13,    14,    15,    16,    27,
-      86,    32,    28,    34,    35,    36,    37,    41,    27,   101,
-      21,   103,   104,   105,    41,   107,    34,    35,    36,    37,
-      32,    17,    32,    32,    17,    17,    38,    39,    38,    39,
-      12,    13,    14,    15,    16,    41,    42,    43,    25,    38,
-       9,    18,    18,    18,    17,     7,    17,    33,    33,    33,
-      18,    18,    -1,    91
+      14,     9,    32,    33,    29,    17,     0,    29,    40,    40,
+      40,    40,    29,    29,    29,    40,    41,    39,    40,    29,
+      42,    43,    44,    53,    40,    50,    42,    43,    44,    14,
+      15,    16,    62,    63,    64,    65,    66,    67,    68,    69,
+      70,    71,    12,    13,    14,    15,    16,    40,    73,    74,
+      80,     3,     4,     5,     6,    23,     8,    40,    10,    11,
+      30,    19,    32,    33,    34,    35,    36,    27,    20,    18,
+      22,    12,    13,    14,    15,    16,    27,    37,    38,    93,
+      24,    27,    27,    97,    27,    29,    40,    27,    40,    21,
+      98,    32,    33,    34,    35,    36,    40,    41,    42,    43,
+      44,   115,    30,   117,   118,   119,   120,    30,   122,    12,
+      13,    14,    15,    16,    37,    38,    30,    26,    30,    40,
+      41,    42,    43,    37,    38,    37,    38,    30,    12,    13,
+      14,    15,    16,    40,    17,    17,    17,    25,    37,     9,
+      18,    18,    18,    17,     7,    31,    31,    18,    17,    80,
+      18,    31,    31,    -1,   104
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    17,    46,     3,     6,     8,    10,    11,    20,    22,
-      41,    47,    48,    49,    50,    51,    52,    53,    56,    57,
-       0,    41,    31,    31,    31,    49,    41,    23,    19,    18,
-      47,    27,    27,    27,    28,    31,    40,    41,    43,    44,
-      58,    59,    41,    59,    27,    21,    24,    42,    31,    58,
-      58,    59,    59,    12,    13,    14,    15,    16,    34,    35,
-      36,    37,    32,    38,    39,    32,    32,    59,    41,    58,
-      32,    32,    58,    58,    58,    58,    58,    58,    58,    58,
-      58,    17,    59,    59,    17,    17,    27,    25,    47,     9,
-      54,    55,    47,    49,    18,    41,    42,    43,    18,    54,
-      18,    17,     7,    33,    33,    33,    47,    17,    47,    47,
-      47,    18,    47,    18
+       0,    17,    46,     3,     4,     5,     6,     8,    10,    11,
+      20,    22,    40,    47,    48,    49,    50,    51,    52,    55,
+      56,    59,    60,     0,    40,    40,    40,    29,    29,    29,
+      49,    40,    23,    19,    18,    47,    27,    27,    27,    27,
+      29,    39,    40,    42,    43,    44,    61,    62,    40,    62,
+      27,    21,    24,    29,    41,    53,    54,    61,    61,    61,
+      62,    62,    12,    13,    14,    15,    16,    32,    33,    34,
+      35,    36,    30,    37,    38,    30,    30,    62,    40,    61,
+      26,    30,    30,    61,    61,    61,    61,    61,    61,    61,
+      61,    61,    61,    17,    62,    62,    17,    17,    27,    25,
+      53,    47,     9,    57,    58,    47,    49,    18,    40,    41,
+      42,    43,    18,    57,    18,    17,     7,    31,    31,    31,
+      31,    47,    17,    47,    47,    47,    47,    18,    47,    18
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
        0,    45,    46,    47,    47,    48,    48,    48,    48,    48,
-      48,    48,    49,    50,    50,    51,    51,    52,    52,    53,
-      54,    54,    55,    55,    55,    56,    57,    58,    58,    58,
-      58,    58,    58,    58,    58,    58,    59,    59,    59,    59,
-      59,    59,    59,    59
+      48,    48,    48,    49,    50,    50,    50,    51,    52,    53,
+      53,    54,    54,    54,    55,    55,    56,    57,    57,    58,
+      58,    58,    58,    59,    60,    61,    61,    61,    61,    61,
+      61,    61,    61,    61,    61,    62,    62,    62,    62,    62,
+      62,    62,    62,    62
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     3,     1,     2,     2,     2,     2,     1,     1,
-       1,     1,     3,     3,     3,     5,     3,     7,    11,     7,
-       1,     2,     4,     4,     4,     7,     9,     1,     1,     1,
+       0,     2,     3,     1,     2,     2,     2,     2,     2,     1,
+       1,     1,     1,     3,     2,     2,     2,     3,     3,     1,
+       3,     3,     1,     1,     7,    11,     7,     1,     2,     4,
+       4,     4,     4,     7,     9,     1,     1,     1,     1,     3,
        3,     3,     3,     3,     3,     3,     3,     3,     3,     3,
        3,     3,     2,     3
 };
@@ -1200,295 +1213,378 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* programa: COMENZAR_TOKEN lista_comandos FIN_TOKEN  */
-#line 53 "analisador_sintatico.y"
+#line 52 "analisador_sintatico.y"
     {
         printf("Análise sintática concluída com sucesso.\n");
     }
-#line 1208 "analisador_sintatico.tab.c"
+#line 1221 "analisador_sintatico.tab.c"
     break;
 
-  case 12: /* atribuicao: ID_TOKEN ATRIB_TOKEN expressao  */
+  case 13: /* atribuicao: ID_TOKEN ATRIB_TOKEN expressao  */
 #line 75 "analisador_sintatico.y"
     {
         printf("Atribuição: %s := %s\n", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1218 "analisador_sintatico.tab.c"
+#line 1231 "analisador_sintatico.tab.c"
     break;
 
-  case 13: /* entrada: ENT_TOKEN ID_TOKEN SEMI_SEMI  */
+  case 14: /* declaracao: ENT_TOKEN ID_TOKEN  */
 #line 84 "analisador_sintatico.y"
     {
-        printf("Entrada declarada para variável: %s\n", (yyvsp[-1].str_val));
-        free((yyvsp[-1].str_val));
-    }
-#line 1227 "analisador_sintatico.tab.c"
-    break;
-
-  case 14: /* entrada: AMPERSAND_TOKEN ID_TOKEN LE_INPUT_TOKEN  */
-#line 89 "analisador_sintatico.y"
-    {
-        printf("Entrada para variável: %s\n", (yyvsp[-1].str_val));
-        free((yyvsp[-1].str_val));
-    }
-#line 1236 "analisador_sintatico.tab.c"
-    break;
-
-  case 15: /* saida: HASH_TOKEN ARROW_TOKEN LBRACKET ID_TOKEN RBRACKET  */
-#line 97 "analisador_sintatico.y"
-    {
-        printf("Saída de variável: %s\n", (yyvsp[-1].str_val));
-        free((yyvsp[-1].str_val));
-    }
-#line 1245 "analisador_sintatico.tab.c"
-    break;
-
-  case 16: /* saida: HASH_TOKEN ARROW_TOKEN STRING_LITERAL  */
-#line 102 "analisador_sintatico.y"
-    {
-        printf("Saída de string: %s\n", (yyvsp[0].str_val));
+        printf("Variavel inteira declarada: %s\n", (yyvsp[0].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1254 "analisador_sintatico.tab.c"
+#line 1240 "analisador_sintatico.tab.c"
     break;
 
-  case 17: /* condicional: SI_TOKEN LPAREN condicao RPAREN COMENZAR_TOKEN lista_comandos FIN_TOKEN  */
+  case 15: /* declaracao: REAL_TOKEN ID_TOKEN  */
+#line 89 "analisador_sintatico.y"
+    {
+        printf("Variavel real declarada: %s\n", (yyvsp[0].str_val));
+        free((yyvsp[0].str_val));
+    }
+#line 1249 "analisador_sintatico.tab.c"
+    break;
+
+  case 16: /* declaracao: CHR_TOKEN ID_TOKEN  */
+#line 94 "analisador_sintatico.y"
+    {
+        printf("Variavel caractere declarada: %s\n", (yyvsp[0].str_val));
+        free((yyvsp[0].str_val));
+    }
+#line 1258 "analisador_sintatico.tab.c"
+    break;
+
+  case 17: /* entrada_dados: AMPERSAND_TOKEN ID_TOKEN LE_INPUT_TOKEN  */
+#line 102 "analisador_sintatico.y"
+    {
+        printf("Entrada para variavel: %s\n", (yyvsp[-1].str_val));
+        free((yyvsp[-1].str_val));
+    }
+#line 1267 "analisador_sintatico.tab.c"
+    break;
+
+  case 18: /* saida: HASH_TOKEN ARROW_TOKEN lista_itens_saida  */
 #line 110 "analisador_sintatico.y"
     {
-        printf("Condicional IF: %s\n", (yyvsp[-4].str_val));
-        free((yyvsp[-4].str_val));
+        printf("Saida: %s\n", (yyvsp[0].str_val)); // Saída de depuração genérica para múltiplos itens
+        free((yyvsp[0].str_val));
     }
-#line 1263 "analisador_sintatico.tab.c"
+#line 1276 "analisador_sintatico.tab.c"
     break;
 
-  case 18: /* condicional: SI_TOKEN LPAREN condicao RPAREN COMENZAR_TOKEN lista_comandos FIN_TOKEN DEMAS_TOKEN COMENZAR_TOKEN lista_comandos FIN_TOKEN  */
-#line 115 "analisador_sintatico.y"
-    {
-        printf("Condicional IF-ELSE: %s\n", (yyvsp[-8].str_val));
-        free((yyvsp[-8].str_val));
-    }
-#line 1272 "analisador_sintatico.tab.c"
-    break;
-
-  case 19: /* cambio_stmt: CAMBIO_TOKEN LPAREN ID_TOKEN RPAREN COMENZAR_TOKEN lista_casos FIN_TOKEN  */
-#line 123 "analisador_sintatico.y"
-    {
-        printf("Switch com variável: %s\n", (yyvsp[-4].str_val));
-        free((yyvsp[-4].str_val));
-    }
-#line 1281 "analisador_sintatico.tab.c"
-    break;
-
-  case 22: /* caso_stmt: CASO_TOKEN INT_LITERAL COLON lista_comandos  */
-#line 136 "analisador_sintatico.y"
-    {
-        printf("CASE com INT: %d\n", (yyvsp[-2].int_val));
-    }
-#line 1289 "analisador_sintatico.tab.c"
-    break;
-
-  case 23: /* caso_stmt: CASO_TOKEN STRING_LITERAL COLON lista_comandos  */
-#line 140 "analisador_sintatico.y"
-    {
-        printf("CASE com STRING: %s\n", (yyvsp[-2].str_val));
-        free((yyvsp[-2].str_val));
-    }
-#line 1298 "analisador_sintatico.tab.c"
-    break;
-
-  case 24: /* caso_stmt: CASO_TOKEN ID_TOKEN COLON lista_comandos  */
-#line 145 "analisador_sintatico.y"
-    {
-        printf("CASE com ID: %s\n", (yyvsp[-2].str_val));
-        free((yyvsp[-2].str_val));
-    }
-#line 1307 "analisador_sintatico.tab.c"
-    break;
-
-  case 25: /* repeticao: MIENTRAS_TOKEN LPAREN condicao RPAREN COMENZAR_TOKEN lista_comandos FIN_TOKEN  */
-#line 153 "analisador_sintatico.y"
-    {
-        printf("While com condição: %s\n", (yyvsp[-4].str_val));
-        free((yyvsp[-4].str_val));
-    }
-#line 1316 "analisador_sintatico.tab.c"
-    break;
-
-  case 26: /* repeticao_for: PARA_TOKEN atribuicao EXCL_EXCL condicao EXCL_EXCL atribuicao COMENZAR_TOKEN lista_comandos FIN_TOKEN  */
-#line 161 "analisador_sintatico.y"
-    {
-        printf("Bloco FOR analisado.\n");
-    }
-#line 1324 "analisador_sintatico.tab.c"
-    break;
-
-  case 27: /* expressao: ID_TOKEN  */
-#line 168 "analisador_sintatico.y"
+  case 19: /* lista_itens_saida: item_saida  */
+#line 117 "analisador_sintatico.y"
     {
         (yyval.str_val) = strdup((yyvsp[0].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1333 "analisador_sintatico.tab.c"
+#line 1285 "analisador_sintatico.tab.c"
     break;
 
-  case 28: /* expressao: INT_LITERAL  */
-#line 173 "analisador_sintatico.y"
+  case 20: /* lista_itens_saida: item_saida HASH_HASH lista_itens_saida  */
+#line 122 "analisador_sintatico.y"
+    {
+        asprintf(&(yyval.str_val), "%s ## %s", (yyvsp[-2].str_val), (yyvsp[0].str_val));
+        free((yyvsp[-2].str_val));
+        free((yyvsp[0].str_val));
+    }
+#line 1295 "analisador_sintatico.tab.c"
+    break;
+
+  case 21: /* item_saida: LBRACKET ID_TOKEN RBRACKET  */
+#line 131 "analisador_sintatico.y"
+    {
+        asprintf(&(yyval.str_val), "[%s]", (yyvsp[-1].str_val)); // Formata para debug
+        free((yyvsp[-1].str_val));
+    }
+#line 1304 "analisador_sintatico.tab.c"
+    break;
+
+  case 22: /* item_saida: STRING_LITERAL  */
+#line 136 "analisador_sintatico.y"
+    {
+        (yyval.str_val) = strdup((yyvsp[0].str_val));
+        free((yyvsp[0].str_val));
+    }
+#line 1313 "analisador_sintatico.tab.c"
+    break;
+
+  case 23: /* item_saida: expressao  */
+#line 142 "analisador_sintatico.y"
+    {
+        (yyval.str_val) = strdup((yyvsp[0].str_val));
+        free((yyvsp[0].str_val));
+    }
+#line 1322 "analisador_sintatico.tab.c"
+    break;
+
+  case 24: /* condicional: SI_TOKEN LPAREN condicao RPAREN COMENZAR_TOKEN lista_comandos FIN_TOKEN  */
+#line 150 "analisador_sintatico.y"
+    {
+        printf("Condicional IF: %s\n", (yyvsp[-4].str_val));
+        free((yyvsp[-4].str_val));
+    }
+#line 1331 "analisador_sintatico.tab.c"
+    break;
+
+  case 25: /* condicional: SI_TOKEN LPAREN condicao RPAREN COMENZAR_TOKEN lista_comandos FIN_TOKEN DEMAS_TOKEN COMENZAR_TOKEN lista_comandos FIN_TOKEN  */
+#line 155 "analisador_sintatico.y"
+    {
+        printf("Condicional IF-ELSE: %s\n", (yyvsp[-8].str_val));
+        free((yyvsp[-8].str_val));
+    }
+#line 1340 "analisador_sintatico.tab.c"
+    break;
+
+  case 26: /* cambio_stmt: CAMBIO_TOKEN LPAREN ID_TOKEN RPAREN COMENZAR_TOKEN lista_casos FIN_TOKEN  */
+#line 163 "analisador_sintatico.y"
+    {
+        printf("Switch com variável: %s\n", (yyvsp[-4].str_val));
+        free((yyvsp[-4].str_val));
+    }
+#line 1349 "analisador_sintatico.tab.c"
+    break;
+
+  case 29: /* caso_stmt: CASO_TOKEN INT_LITERAL COLON lista_comandos  */
+#line 176 "analisador_sintatico.y"
+    {
+        printf("CASE com INT: %d\n", (yyvsp[-2].int_val));
+    }
+#line 1357 "analisador_sintatico.tab.c"
+    break;
+
+  case 30: /* caso_stmt: CASO_TOKEN STRING_LITERAL COLON lista_comandos  */
+#line 180 "analisador_sintatico.y"
+    {
+        printf("CASE com STRING: %s\n", (yyvsp[-2].str_val));
+        free((yyvsp[-2].str_val));
+    }
+#line 1366 "analisador_sintatico.tab.c"
+    break;
+
+  case 31: /* caso_stmt: CASO_TOKEN CHAR_LITERAL COLON lista_comandos  */
+#line 185 "analisador_sintatico.y"
+    {
+        printf("CASE com CHAR: %s\n", (yyvsp[-2].str_val)); 
+        free((yyvsp[-2].str_val));
+    }
+#line 1375 "analisador_sintatico.tab.c"
+    break;
+
+  case 32: /* caso_stmt: CASO_TOKEN ID_TOKEN COLON lista_comandos  */
+#line 190 "analisador_sintatico.y"
+    {
+        printf("CASE com ID: %s\n", (yyvsp[-2].str_val));
+        free((yyvsp[-2].str_val));
+    }
+#line 1384 "analisador_sintatico.tab.c"
+    break;
+
+  case 33: /* repeticao: MIENTRAS_TOKEN LPAREN condicao RPAREN COMENZAR_TOKEN lista_comandos FIN_TOKEN  */
+#line 198 "analisador_sintatico.y"
+    {
+        printf("While com condição: %s\n", (yyvsp[-4].str_val));
+        free((yyvsp[-4].str_val));
+    }
+#line 1393 "analisador_sintatico.tab.c"
+    break;
+
+  case 34: /* repeticao_for: PARA_TOKEN atribuicao EXCL_EXCL condicao EXCL_EXCL atribuicao COMENZAR_TOKEN lista_comandos FIN_TOKEN  */
+#line 206 "analisador_sintatico.y"
+    {
+        printf("Bloco FOR analisado.\n");
+    }
+#line 1401 "analisador_sintatico.tab.c"
+    break;
+
+  case 35: /* expressao: ID_TOKEN  */
+#line 213 "analisador_sintatico.y"
+    {
+        (yyval.str_val) = strdup((yyvsp[0].str_val));
+        free((yyvsp[0].str_val));
+    }
+#line 1410 "analisador_sintatico.tab.c"
+    break;
+
+  case 36: /* expressao: CHAR_LITERAL  */
+#line 218 "analisador_sintatico.y"
+    {
+        (yyval.str_val) = strdup((yyvsp[0].str_val)); // $1 já é a string do caractere literal (ex: "'A'")
+        free((yyvsp[0].str_val));
+    }
+#line 1419 "analisador_sintatico.tab.c"
+    break;
+
+  case 37: /* expressao: INT_LITERAL  */
+#line 223 "analisador_sintatico.y"
     {
         char buf[32];
         snprintf(buf, sizeof(buf), "%d", (yyvsp[0].int_val));
         (yyval.str_val) = strdup(buf);
     }
-#line 1343 "analisador_sintatico.tab.c"
+#line 1429 "analisador_sintatico.tab.c"
     break;
 
-  case 29: /* expressao: FLOAT_LITERAL  */
-#line 179 "analisador_sintatico.y"
+  case 38: /* expressao: FLOAT_LITERAL  */
+#line 229 "analisador_sintatico.y"
     {
         char buf[32];
         snprintf(buf, sizeof(buf), "%.6g", (yyvsp[0].float_val));
         (yyval.str_val) = strdup(buf);
     }
-#line 1353 "analisador_sintatico.tab.c"
+#line 1439 "analisador_sintatico.tab.c"
     break;
 
-  case 30: /* expressao: expressao MAS_TOKEN expressao  */
-#line 185 "analisador_sintatico.y"
+  case 39: /* expressao: expressao MAS_TOKEN expressao  */
+#line 235 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "%s + %s", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1363 "analisador_sintatico.tab.c"
+#line 1449 "analisador_sintatico.tab.c"
     break;
 
-  case 31: /* expressao: expressao MENOS_TOKEN expressao  */
-#line 191 "analisador_sintatico.y"
+  case 40: /* expressao: expressao MENOS_TOKEN expressao  */
+#line 241 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "%s - %s", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1373 "analisador_sintatico.tab.c"
+#line 1459 "analisador_sintatico.tab.c"
     break;
 
-  case 32: /* expressao: expressao POR_TOKEN expressao  */
-#line 197 "analisador_sintatico.y"
+  case 41: /* expressao: expressao POR_TOKEN expressao  */
+#line 247 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "%s * %s", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1383 "analisador_sintatico.tab.c"
+#line 1469 "analisador_sintatico.tab.c"
     break;
 
-  case 33: /* expressao: expressao DIVIDIDO_TOKEN expressao  */
-#line 203 "analisador_sintatico.y"
+  case 42: /* expressao: expressao DIVIDIDO_TOKEN expressao  */
+#line 253 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "%s / %s", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1393 "analisador_sintatico.tab.c"
+#line 1479 "analisador_sintatico.tab.c"
     break;
 
-  case 34: /* expressao: expressao RESTO_TOKEN expressao  */
-#line 209 "analisador_sintatico.y"
+  case 43: /* expressao: expressao RESTO_TOKEN expressao  */
+#line 259 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "%s %% %s", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1403 "analisador_sintatico.tab.c"
+#line 1489 "analisador_sintatico.tab.c"
     break;
 
-  case 35: /* expressao: LPAREN expressao RPAREN  */
-#line 215 "analisador_sintatico.y"
+  case 44: /* expressao: LPAREN expressao RPAREN  */
+#line 265 "analisador_sintatico.y"
     {
         (yyval.str_val) = (yyvsp[-1].str_val);
     }
-#line 1411 "analisador_sintatico.tab.c"
+#line 1497 "analisador_sintatico.tab.c"
     break;
 
-  case 36: /* condicao: expressao GT_RELATIONAL expressao  */
-#line 222 "analisador_sintatico.y"
+  case 45: /* condicao: expressao GT_RELATIONAL expressao  */
+#line 272 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "%s > %s", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1421 "analisador_sintatico.tab.c"
+#line 1507 "analisador_sintatico.tab.c"
     break;
 
-  case 37: /* condicao: expressao LT_RELATIONAL expressao  */
-#line 228 "analisador_sintatico.y"
+  case 46: /* condicao: expressao EQ_RELATIONAL expressao  */
+#line 278 "analisador_sintatico.y"
+    {
+        asprintf(&(yyval.str_val), "%s == %s", (yyvsp[-2].str_val), (yyvsp[0].str_val)); // Isso é para o output de depuração em C
+        free((yyvsp[-2].str_val));
+        free((yyvsp[0].str_val));
+    }
+#line 1517 "analisador_sintatico.tab.c"
+    break;
+
+  case 47: /* condicao: expressao LT_RELATIONAL expressao  */
+#line 284 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "%s < %s", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1431 "analisador_sintatico.tab.c"
+#line 1527 "analisador_sintatico.tab.c"
     break;
 
-  case 38: /* condicao: expressao GE_RELATIONAL expressao  */
-#line 234 "analisador_sintatico.y"
+  case 48: /* condicao: expressao GE_RELATIONAL expressao  */
+#line 290 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "%s >= %s", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1441 "analisador_sintatico.tab.c"
+#line 1537 "analisador_sintatico.tab.c"
     break;
 
-  case 39: /* condicao: expressao LE_RELATIONAL expressao  */
-#line 240 "analisador_sintatico.y"
+  case 49: /* condicao: expressao LE_RELATIONAL expressao  */
+#line 296 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "%s <= %s", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1451 "analisador_sintatico.tab.c"
+#line 1547 "analisador_sintatico.tab.c"
     break;
 
-  case 40: /* condicao: condicao AND_LOGICAL condicao  */
-#line 246 "analisador_sintatico.y"
+  case 50: /* condicao: condicao AND_LOGICAL condicao  */
+#line 302 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "%s && %s", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1461 "analisador_sintatico.tab.c"
+#line 1557 "analisador_sintatico.tab.c"
     break;
 
-  case 41: /* condicao: condicao OR_LOGICAL condicao  */
-#line 252 "analisador_sintatico.y"
+  case 51: /* condicao: condicao OR_LOGICAL condicao  */
+#line 308 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "%s || %s", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1471 "analisador_sintatico.tab.c"
+#line 1567 "analisador_sintatico.tab.c"
     break;
 
-  case 42: /* condicao: NOT_LOGICAL condicao  */
-#line 258 "analisador_sintatico.y"
+  case 52: /* condicao: NOT_LOGICAL condicao  */
+#line 314 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "!%s", (yyvsp[0].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1480 "analisador_sintatico.tab.c"
+#line 1576 "analisador_sintatico.tab.c"
     break;
 
-  case 43: /* condicao: LPAREN condicao RPAREN  */
-#line 263 "analisador_sintatico.y"
+  case 53: /* condicao: LPAREN condicao RPAREN  */
+#line 319 "analisador_sintatico.y"
     {
         (yyval.str_val) = (yyvsp[-1].str_val);
     }
-#line 1488 "analisador_sintatico.tab.c"
+#line 1584 "analisador_sintatico.tab.c"
     break;
 
 
-#line 1492 "analisador_sintatico.tab.c"
+#line 1588 "analisador_sintatico.tab.c"
 
       default: break;
     }
@@ -1681,7 +1777,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 268 "analisador_sintatico.y"
+#line 324 "analisador_sintatico.y"
 
 
 void yyerror(const char *s) {

@@ -25,17 +25,16 @@ extern FILE *yyout_tokens;
 %token COMENZAR_TOKEN FIN_TOKEN
 %token ATRIB_TOKEN AMPERSAND_TOKEN LE_INPUT_TOKEN HASH_TOKEN ARROW_TOKEN
 %token LBRACKET RBRACKET
-%token HASH_HASH EXCL_EXCL SEMI_SEMI LBLOCK_DELIMITER RBLOCK_DELIMITER
+%token HASH_HASH EXCL_EXCL SEMI_SEMI 
 %token LPAREN RPAREN COLON
 
-%token GT_RELATIONAL LT_RELATIONAL GE_RELATIONAL LE_RELATIONAL
+%token GT_RELATIONAL LT_RELATIONAL GE_RELATIONAL LE_RELATIONAL EQ_RELATIONAL
 %token AND_LOGICAL OR_LOGICAL NOT_LOGICAL
 
-%token <str_val> ID_TOKEN STRING_LITERAL
+%type <str_val> expressao condicao lista_itens_saida item_saida
+%token <str_val> ID_TOKEN STRING_LITERAL CHAR_LITERAL
 %token <int_val> INT_LITERAL
 %token <float_val> FLOAT_LITERAL
-
-%type <str_val> expressao condicao
 
 %start programa
 
@@ -62,7 +61,8 @@ lista_comandos:
 
 comando:
       atribuicao EXCL_EXCL
-    | entrada EXCL_EXCL
+    | declaracao EXCL_EXCL 
+    | entrada_dados EXCL_EXCL 
     | saida EXCL_EXCL
     | condicional
     | repeticao
@@ -79,29 +79,69 @@ atribuicao:
     }
 ;
 
-entrada:
-      ENT_TOKEN ID_TOKEN SEMI_SEMI
+declaracao:
+      ENT_TOKEN ID_TOKEN
     {
-        printf("Entrada declarada para variável: %s\n", $2);
+        printf("Variavel inteira declarada: %s\n", $2);
         free($2);
     }
-    | AMPERSAND_TOKEN ID_TOKEN LE_INPUT_TOKEN
+    | REAL_TOKEN ID_TOKEN
     {
-        printf("Entrada para variável: %s\n", $2);
+        printf("Variavel real declarada: %s\n", $2);
+        free($2);
+    }
+    | CHR_TOKEN ID_TOKEN
+    {
+        printf("Variavel caractere declarada: %s\n", $2);
+        free($2);
+    }
+;
+
+entrada_dados:
+      AMPERSAND_TOKEN ID_TOKEN LE_INPUT_TOKEN
+    {
+        printf("Entrada para variavel: %s\n", $2);
         free($2);
     }
 ;
 
 saida:
-      HASH_TOKEN ARROW_TOKEN LBRACKET ID_TOKEN RBRACKET
+      HASH_TOKEN ARROW_TOKEN lista_itens_saida
     {
-        printf("Saída de variável: %s\n", $4);
-        free($4);
-    }
-    | HASH_TOKEN ARROW_TOKEN STRING_LITERAL
-    {
-        printf("Saída de string: %s\n", $3);
+        printf("Saida: %s\n", $3); // Saída de depuração genérica para múltiplos itens
         free($3);
+    }
+;
+lista_itens_saida:
+      item_saida
+    {
+        $$ = strdup($1);
+        free($1);
+    }
+    | item_saida HASH_HASH lista_itens_saida // Permite item ## item ## ...
+    {
+        asprintf(&$$, "%s ## %s", $1, $3);
+        free($1);
+        free($3);
+    }
+;
+
+item_saida:
+      LBRACKET ID_TOKEN RBRACKET
+    {
+        asprintf(&$$, "[%s]", $2); // Formata para debug
+        free($2);
+    }
+    | STRING_LITERAL
+    {
+        $$ = strdup($1);
+        free($1);
+    }
+    // Opcional: se você quiser exibir números ou expressões diretas
+    | expressao
+    {
+        $$ = strdup($1);
+        free($1);
     }
 ;
 
@@ -141,6 +181,11 @@ caso_stmt:
         printf("CASE com STRING: %s\n", $2);
         free($2);
     }
+    | CASO_TOKEN CHAR_LITERAL COLON lista_comandos
+    {
+        printf("CASE com CHAR: %s\n", $2); 
+        free($2);
+    }
     | CASO_TOKEN ID_TOKEN COLON lista_comandos
     {
         printf("CASE com ID: %s\n", $2);
@@ -167,6 +212,11 @@ expressao:
       ID_TOKEN
     {
         $$ = strdup($1);
+        free($1);
+    }
+    | CHAR_LITERAL 
+    {
+        $$ = strdup($1); // $1 já é a string do caractere literal (ex: "'A'")
         free($1);
     }
     | INT_LITERAL
@@ -221,6 +271,12 @@ condicao:
       expressao GT_RELATIONAL expressao
     {
         asprintf(&$$, "%s > %s", $1, $3);
+        free($1);
+        free($3);
+    }
+    | expressao EQ_RELATIONAL expressao
+    {
+        asprintf(&$$, "%s == %s", $1, $3); // Isso é para o output de depuração em C
         free($1);
         free($3);
     }

@@ -66,17 +66,16 @@ numero_real      ({digito}+\.{digito}*|{digito}*\.{digito}+)([eE][-+]?{digito}+)
 "]"              { fprintf(yyout_tokens, "%s -> parêntese reto direito\n", yytext); return RBRACKET; }
 "##"             { fprintf(yyout_tokens, "%s -> separador de itens\n", yytext); return HASH_HASH; }
 "!!"             { fprintf(yyout_tokens, "%s -> fim de instrução/sentença\n", yytext); return EXCL_EXCL; }
-";;"             { fprintf(yyout_tokens, "%s -> quebra de linha/próxima instrução\n", yytext); return SEMI_SEMI; }
-"@{"             { fprintf(yyout_tokens, "%s -> início de bloco de código\n", yytext); return LBLOCK_DELIMITER; }
-"}@"             { fprintf(yyout_tokens, "%s -> fim de bloco de código\n", yytext); return RBLOCK_DELIMITER; }
-"("              { fprintf(yyout_tokens, "%s -> parêntese esquerdo\n", yytext); return LPAREN; }
-")"              { fprintf(yyout_tokens, "%s -> parêntese direito\n", yytext); return RPAREN; }
-":"              { fprintf(yyout_tokens, "%s -> dois pontos\n", yytext); return COLON; }
+";;"             { fprintf(yyout_tokens, "%s -> quebra de linha\n", yytext); return SEMI_SEMI; }
+"@{" { fprintf(yyout_tokens, "%s -> parêntese esquerdo\n", yytext); return LPAREN; } // Reutilizando LPAREN
+ "}@" { fprintf(yyout_tokens, "%s -> parêntese direito\n", yytext); return RPAREN; } // Reutilizando RPAREN
+":::"            { fprintf(yyout_tokens, "%s -> dois pontos\n", yytext); return COLON; }
 
 ">>"             { fprintf(yyout_tokens, "%s -> operador relacional: maior que\n", yytext); return GT_RELATIONAL; }
 "[*"             { fprintf(yyout_tokens, "%s -> operador relacional: menor ou igual\n", yytext); return LE_RELATIONAL; }
 "]*"             { fprintf(yyout_tokens, "%s -> operador relacional: maior ou igual\n", yytext); return GE_RELATIONAL; }
-"<"              { fprintf(yyout_tokens, "%s -> operador relacional: menor que\n", yytext); return LT_RELATIONAL; }
+"<<"              { fprintf(yyout_tokens, "%s -> operador relacional: menor que\n", yytext); return LT_RELATIONAL; }
+"="              { fprintf(yyout_tokens, "%s -> operador relacional: igual a\n", yytext); return EQ_RELATIONAL; }
 
 "<<>>"           { fprintf(yyout_tokens, "%s -> operador lógico: AND\n", yytext); return AND_LOGICAL; }
 "<|>"            { fprintf(yyout_tokens, "%s -> operador lógico: OR\n", yytext); return OR_LOGICAL; }
@@ -88,6 +87,13 @@ numero_real      ({digito}+\.{digito}*|{digito}*\.{digito}+)([eE][-+]?{digito}+)
     fprintf(yyout_tokens, "%s -> string literal\n", yytext);
     yylval.str_val = strdup(yytext);
     return STRING_LITERAL;
+}
+"'"(.|\\.)"'" {
+    fprintf(yyout_tokens, "%s -> caractere literal\n", yytext);
+    // Para passar o valor do caractere para o parser, você pode usar yylval.char_val
+    // ou se você passa tudo como string, strdup(yytext)
+    yylval.str_val = strdup(yytext); // Ou yylval.char_val = yytext[1]; se seu union tiver um char
+    return CHAR_LITERAL; // Retorna um novo token para caractere literal
 }
 
 . {
