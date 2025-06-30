@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "analisador_sintatico.tab.h"  // header gerado pelo Bison
+#include "analisador_sintatico.tab.h"  
 
 extern YYSTYPE yylval;
 FILE *yyout_tokens;
@@ -11,7 +11,7 @@ FILE *yyout_tokens;
 %option noyywrap
 %option yylineno
 
-/* ===== DEFINIÇÕES DE MACROS ===== */
+
 letra            [A-Za-z]
 digito           [0-9]
 identificador    {letra}({letra}|{digito})*
@@ -67,8 +67,8 @@ numero_real      ({digito}+\.{digito}*|{digito}*\.{digito}+)([eE][-+]?{digito}+)
 "##"             { fprintf(yyout_tokens, "%s -> separador de itens\n", yytext); return HASH_HASH; }
 "!!"             { fprintf(yyout_tokens, "%s -> fim de instrução/sentença\n", yytext); return EXCL_EXCL; }
 ";;"             { fprintf(yyout_tokens, "%s -> quebra de linha\n", yytext); return SEMI_SEMI; }
-"@{" { fprintf(yyout_tokens, "%s -> parêntese esquerdo\n", yytext); return LPAREN; } // Reutilizando LPAREN
- "}@" { fprintf(yyout_tokens, "%s -> parêntese direito\n", yytext); return RPAREN; } // Reutilizando RPAREN
+"@{" { fprintf(yyout_tokens, "%s -> parêntese esquerdo\n", yytext); return LPAREN; } 
+ "}@" { fprintf(yyout_tokens, "%s -> parêntese direito\n", yytext); return RPAREN; } 
 ":::"            { fprintf(yyout_tokens, "%s -> dois pontos\n", yytext); return COLON; }
 
 ">>"             { fprintf(yyout_tokens, "%s -> operador relacional: maior que\n", yytext); return GT_RELATIONAL; }
@@ -81,7 +81,7 @@ numero_real      ({digito}+\.{digito}*|{digito}*\.{digito}+)([eE][-+]?{digito}+)
 "<|>"            { fprintf(yyout_tokens, "%s -> operador lógico: OR\n", yytext); return OR_LOGICAL; }
 "!~"             { fprintf(yyout_tokens, "%s -> operador lógico: NOT\n", yytext); return NOT_LOGICAL; }
 
-[ \t\r\n]+       { /* ignora espaços em branco */ }
+[ \t\r\n]+       {  }
 
 \"(\\.|[^\"\\])*\" {
     fprintf(yyout_tokens, "%s -> string literal\n", yytext);
@@ -90,10 +90,8 @@ numero_real      ({digito}+\.{digito}*|{digito}*\.{digito}+)([eE][-+]?{digito}+)
 }
 "'"(.|\\.)"'" {
     fprintf(yyout_tokens, "%s -> caractere literal\n", yytext);
-    // Para passar o valor do caractere para o parser, você pode usar yylval.char_val
-    // ou se você passa tudo como string, strdup(yytext)
-    yylval.str_val = strdup(yytext); // Ou yylval.char_val = yytext[1]; se seu union tiver um char
-    return CHAR_LITERAL; // Retorna um novo token para caractere literal
+    yylval.str_val = strdup(yytext); 
+    return CHAR_LITERAL; 
 }
 
 . {

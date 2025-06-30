@@ -557,13 +557,12 @@ char *yytext;
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "analisador_sintatico.tab.h"  // header gerado pelo Bison
+#include "analisador_sintatico.tab.h"  
 
 extern YYSTYPE yylval;
 FILE *yyout_tokens;
 #line 565 "lex.yy.c"
-/* ===== DEFINIÇÕES DE MACROS ===== */
-#line 567 "lex.yy.c"
+#line 566 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -783,7 +782,7 @@ YY_DECL
 #line 21 "analisador_lexico.l"
 
 
-#line 787 "lex.yy.c"
+#line 786 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1010,12 +1009,12 @@ YY_RULE_SETUP
 case 30:
 YY_RULE_SETUP
 #line 70 "analisador_lexico.l"
-{ fprintf(yyout_tokens, "%s -> parêntese esquerdo\n", yytext); return LPAREN; } // Reutilizando LPAREN
+{ fprintf(yyout_tokens, "%s -> parêntese esquerdo\n", yytext); return LPAREN; } 
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 71 "analisador_lexico.l"
-{ fprintf(yyout_tokens, "%s -> parêntese direito\n", yytext); return RPAREN; } // Reutilizando RPAREN
+{ fprintf(yyout_tokens, "%s -> parêntese direito\n", yytext); return RPAREN; } 
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
@@ -1066,7 +1065,7 @@ case 41:
 /* rule 41 can match eol */
 YY_RULE_SETUP
 #line 84 "analisador_lexico.l"
-{ /* ignora espaços em branco */ }
+{  }
 	YY_BREAK
 case 42:
 /* rule 42 can match eol */
@@ -1083,15 +1082,13 @@ YY_RULE_SETUP
 #line 91 "analisador_lexico.l"
 {
     fprintf(yyout_tokens, "%s -> caractere literal\n", yytext);
-    // Para passar o valor do caractere para o parser, você pode usar yylval.char_val
-    // ou se você passa tudo como string, strdup(yytext)
-    yylval.str_val = strdup(yytext); // Ou yylval.char_val = yytext[1]; se seu union tiver um char
-    return CHAR_LITERAL; // Retorna um novo token para caractere literal
+    yylval.str_val = strdup(yytext); 
+    return CHAR_LITERAL; 
 }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 99 "analisador_lexico.l"
+#line 97 "analisador_lexico.l"
 {
     fprintf(stderr, "Erro léxico na linha %d: caractere ou sequência inválida '%s'\n", yylineno, yytext);
     return -1;
@@ -1099,10 +1096,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 104 "analisador_lexico.l"
+#line 102 "analisador_lexico.l"
 ECHO;
 	YY_BREAK
-#line 1106 "lex.yy.c"
+#line 1103 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2119,7 +2116,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 104 "analisador_lexico.l"
+#line 102 "analisador_lexico.l"
 
 
 #undef yywrap

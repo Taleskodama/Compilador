@@ -4,10 +4,10 @@
 #include <string.h>
 
 extern int yylex();
-extern int yylineno; // Suporte para yylineno do lexer
+extern int yylineno; 
 void yyerror(const char *s);
 
-// Arquivos auxiliares
+
 FILE *output_code_file;
 extern FILE *yyout_tokens;
 %}
@@ -108,7 +108,7 @@ entrada_dados:
 saida:
       HASH_TOKEN ARROW_TOKEN lista_itens_saida
     {
-        printf("Saida: %s\n", $3); // Saída de depuração genérica para múltiplos itens
+        printf("Saida: %s\n", $3); 
         free($3);
     }
 ;
@@ -118,7 +118,7 @@ lista_itens_saida:
         $$ = strdup($1);
         free($1);
     }
-    | item_saida HASH_HASH lista_itens_saida // Permite item ## item ## ...
+    | item_saida HASH_HASH lista_itens_saida 
     {
         asprintf(&$$, "%s ## %s", $1, $3);
         free($1);
@@ -129,7 +129,7 @@ lista_itens_saida:
 item_saida:
       LBRACKET ID_TOKEN RBRACKET
     {
-        asprintf(&$$, "[%s]", $2); // Formata para debug
+        asprintf(&$$, "[%s]", $2); 
         free($2);
     }
     | STRING_LITERAL
@@ -137,7 +137,7 @@ item_saida:
         $$ = strdup($1);
         free($1);
     }
-    // Opcional: se você quiser exibir números ou expressões diretas
+    
     | expressao
     {
         $$ = strdup($1);
@@ -216,7 +216,7 @@ expressao:
     }
     | CHAR_LITERAL 
     {
-        $$ = strdup($1); // $1 já é a string do caractere literal (ex: "'A'")
+        $$ = strdup($1); 
         free($1);
     }
     | INT_LITERAL
@@ -276,7 +276,7 @@ condicao:
     }
     | expressao EQ_RELATIONAL expressao
     {
-        asprintf(&$$, "%s == %s", $1, $3); // Isso é para o output de depuração em C
+        asprintf(&$$, "%s == %s", $1, $3); 
         free($1);
         free($3);
     }

@@ -74,10 +74,10 @@
 #include <string.h>
 
 extern int yylex();
-extern int yylineno; // Suporte para yylineno do lexer
+extern int yylineno; 
 void yyerror(const char *s);
 
-// Arquivos auxiliares
+
 FILE *output_code_file;
 extern FILE *yyout_tokens;
 
@@ -1269,7 +1269,7 @@ yyreduce:
   case 18: /* saida: HASH_TOKEN ARROW_TOKEN lista_itens_saida  */
 #line 110 "analisador_sintatico.y"
     {
-        printf("Saida: %s\n", (yyvsp[0].str_val)); // Saída de depuração genérica para múltiplos itens
+        printf("Saida: %s\n", (yyvsp[0].str_val)); 
         free((yyvsp[0].str_val));
     }
 #line 1276 "analisador_sintatico.tab.c"
@@ -1297,7 +1297,7 @@ yyreduce:
   case 21: /* item_saida: LBRACKET ID_TOKEN RBRACKET  */
 #line 131 "analisador_sintatico.y"
     {
-        asprintf(&(yyval.str_val), "[%s]", (yyvsp[-1].str_val)); // Formata para debug
+        asprintf(&(yyval.str_val), "[%s]", (yyvsp[-1].str_val)); 
         free((yyvsp[-1].str_val));
     }
 #line 1304 "analisador_sintatico.tab.c"
@@ -1412,7 +1412,7 @@ yyreduce:
   case 36: /* expressao: CHAR_LITERAL  */
 #line 218 "analisador_sintatico.y"
     {
-        (yyval.str_val) = strdup((yyvsp[0].str_val)); // $1 já é a string do caractere literal (ex: "'A'")
+        (yyval.str_val) = strdup((yyvsp[0].str_val)); 
         free((yyvsp[0].str_val));
     }
 #line 1419 "analisador_sintatico.tab.c"
@@ -1509,7 +1509,7 @@ yyreduce:
   case 46: /* condicao: expressao EQ_RELATIONAL expressao  */
 #line 278 "analisador_sintatico.y"
     {
-        asprintf(&(yyval.str_val), "%s == %s", (yyvsp[-2].str_val), (yyvsp[0].str_val)); // Isso é para o output de depuração em C
+        asprintf(&(yyval.str_val), "%s == %s", (yyvsp[-2].str_val), (yyvsp[0].str_val)); 
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
