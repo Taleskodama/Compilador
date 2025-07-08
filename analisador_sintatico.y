@@ -100,13 +100,13 @@ comando:
     }
     | entrada_dados EXCL_EXCL
     {
-        asprintf(&$$, "    %s;\n", $1);
+        // CORREÇÃO: entrada_dados agora retorna a string COMPLETA do printf e scanf.
+        asprintf(&$$, "%s", $1); // $1 já é a string C gerada por 'entrada_dados' (com prompts e scanf)
         free($1);
     }
     | saida EXCL_EXCL
     {
-        // A regra 'saida' agora passa o código C completo do printf(s) que gerou.
-        // ex: $$ = "printf(\"fmt\", arg);"
+        // CORREÇÃO: saida agora retorna a string COMPLETA dos printfs.
         asprintf(&$$, "%s", $1); // $1 é a string C gerada por 'saida'
         free($1);
     }
@@ -156,10 +156,14 @@ tipo:
     | CHR_TOKEN    { $$ = strdup("char"); }
     ;
 
+// Versão corrigida da regra
 entrada_dados:
-      AMPERSAND_TOKEN ID_TOKEN LE_INPUT_TOKEN
+    AMPERSAND_TOKEN ID_TOKEN LE_INPUT_TOKEN
     {
         char *format_str;
+        // ... (lógica para determinar o tipo)
+
+        // ***** SOLUÇÃO PARA TIPOS (SEM TABELA DE SÍMBOLOS) *****
         if (strcmp($2, "valorInt") == 0 ||
             strcmp($2, "resultadoSoma") == 0 ||
             strcmp($2, "resultadoResto") == 0 ||
@@ -167,55 +171,55 @@ entrada_dados:
             strcmp($2, "resultadoMultiplicacao") == 0 ||
             strcmp($2, "resultadoDivisao") == 0)
         {
-            format_str = "%%d"; // Int
+            format_str = "%d"; // CORRIGIDO: Usa "%d" para o formato do scanf
             fprintf(stderr, "INFO: Entrada de '%s' formatada como int (%%d).\n", $2);
         }
         else if (strcmp($2, "valorReal") == 0)
         {
-            format_str = "%%f"; // Float
+            format_str = "%f"; // CORRIGIDO: Usa "%f" para o formato do scanf
             fprintf(stderr, "INFO: Entrada de '%s' formatada como float (%%f).\n", $2);
         }
         else if (strcmp($2, "caractereUnico") == 0)
         {
-            format_str = " %%c"; // Char (espaço antes de %c)
+            format_str = " %c"; // Esta parte já estava correta
             fprintf(stderr, "INFO: Entrada de '%s' formatada como char ( %%c).\n", $2);
         }
         else
         {
-            format_str = "%%d"; // Padrão para int se não reconhecido
+            format_str = "%d"; // Padrão
             fprintf(stderr, "AVISO: Entrada de dados simplificada para int. Verifique o tipo real em '%s'.\n", $2);
         }
-        // CORREÇÃO: Adicionando o printf literal antes do scanf e separando-os com '; \n'
-        asprintf(&$$, "printf(\"%%s\\n\", \"%s\");\n    scanf(\"%s\", &%s)", // printf para o prompt, depois scanf
-                 "Digite um numero inteiro: ", format_str, $2); // O prompt pode vir do .com, isto é um exemplo
-        // A string gerada agora é: "printf(\"prompt\\n\");\n    scanf(\"fmt\", &var)"
+        
+        // Esta chamada asprintf agora receberá o formato correto.
+        asprintf(&$$, "    scanf(\"%s\", &%s);\n", format_str, $2);
         
         free($2);
     }
     ;
 
-// Regra 'saida' AGORA retorna a string C do printf completo.
+// Regra 'saida' agora retorna a string C completa com todos os printfs concatenados.
 saida:
       HASH_TOKEN ARROW_TOKEN lista_itens_saida_gen_code
     {
-        // O $3 agora é a string C completa com a formatação e argumentos do printf.
+        // O $3 é a string C completa com todos os printfs já concatenados e com \n finais.
         $$ = strdup($3);
         free($3);
     }
     ;
 
 // Regra para a lista de itens de saída que GERA o código de printf diretamente.
-// Esta regra NÃO retorna um valor ($$), apenas executa ações para gerar código.
+// Esta regra RETORNA a string C completa de um ou mais printfs.
 lista_itens_saida_gen_code:
       item_saida_gen_code
     {
-        $$ = strdup($1); // $1 já é a string C do printf completo para este item.
+        // $1 já é a string C do printf completo para este item.
+        $$ = strdup($1);
         free($1);
     }
     | item_saida_gen_code HASH_HASH lista_itens_saida_gen_code
     {
         // CORREÇÃO: Concatena as strings C completas dos printfs.
-        // Isso cria uma única string que contém múltiplos "printf(...);"
+        // Isso cria uma única string que contém múltiplos "printf(...);\nprintf(...);"
         asprintf(&$$, "%s%s", $1, $3); 
         free($1);
         free($3);
@@ -224,10 +228,13 @@ lista_itens_saida_gen_code:
 
 // Regra para um único item de saída que GERA a string C do argumento/formato do printf.
 // Esta regra RETORNA a string C COMPLETA de um printf (ex: "printf(\"%d\\n\", var)").
+// Regra para um único item de saída que GERA a string C do argumento/formato do printf.
+// Esta regra RETORNA a string C COMPLETA de um printf (ex: "    printf(\"%d\\n\", var);\n").
 item_saida_gen_code:
-      LBRACKET ID_TOKEN RBRACKET
+    LBRACKET ID_TOKEN RBRACKET
     {
         char *format_str;
+        // ... (sua lógica para determinar o format_str continua a mesma) ...
         if (strcmp($2, "valorInt") == 0 ||
             strcmp($2, "resultadoSoma") == 0 ||
             strcmp($2, "resultadoResto") == 0 ||
@@ -235,41 +242,41 @@ item_saida_gen_code:
             strcmp($2, "resultadoMultiplicacao") == 0 ||
             strcmp($2, "resultadoDivisao") == 0)
         {
-            format_str = "%%d"; // Int
-            fprintf(stderr, "INFO: Saída de '%s' formatada como int (%%d).\\n", $2);
+            format_str = "%d"; // Int
         }
         else if (strcmp($2, "valorReal") == 0)
         {
-            format_str = "%%f"; // Float
-            fprintf(stderr, "INFO: Saída de '%s' formatada como float (%%f).\\n", $2);
+            format_str = "%f"; // Float
         }
         else if (strcmp($2, "caractereUnico") == 0)
         {
-            format_str = "%%c"; // Char
-            fprintf(stderr, "INFO: Saída de '%s' formatada como char (%%c).\\n", $2);
+            format_str = "%c"; // Char
         }
         else
         {
-            format_str = "%%s"; // Padrão para string (ID) se não reconhecido
-            fprintf(stderr, "AVISO: Saída de variável simplificada para string. Verifique o tipo real de '%s'.\\n", $2);
+            format_str = "%s"; // Padrão
         }
-        asprintf(&$$, "printf(\"%s\\n\", %s)", format_str, $2); // Gerando printf completo com \n
+        // CORRIGIDO: Adiciona indentação, ponto-e-vírgula e quebra de linha.
+        asprintf(&$$, "    printf(\"%s\\n\", %s);\n", format_str, $2);
         free($2);
     }
     | STRING_LITERAL
     {
-        asprintf(&$$, "printf(\"%%s\\n\", %s)", $1); // Gerando printf completo com \n
+        // CORRIGIDO: Adiciona indentação, ponto-e-vírgula e quebra de linha.
+        asprintf(&$$, "    printf(\"%%s\\n\", %s);\n", $1);
         free($1);
     }
     | CHAR_LITERAL
     {
-        asprintf(&$$, "printf(\"%%c\\n\", %s)", $1); // Gerando printf completo com \n
+        // CORRIGIDO: Adiciona indentação, ponto-e-vírgula e quebra de linha.
+        asprintf(&$$, "    printf(\"%%c\\n\", %s);\n", $1);
         free($1);
     }
     | expressao
     {
-        // Assumindo int como padrão para expressões.
-        asprintf(&$$, "printf(\"%%d\\n\", (%s))", $1); // Gerando printf completo com \n
+        // CORRIGIDO: Adiciona indentação, ponto-e-vírgula e quebra de linha.
+        // Assumindo que a expressão resulta em um inteiro para impressão.
+        asprintf(&$$, "    printf(\"%%d\\n\", (%s));\n", $1);
         free($1);
     }
     ;

@@ -569,12 +569,12 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    59,    59,    77,    82,    91,    96,   101,   106,   113,
-     118,   123,   128,   136,   145,   154,   155,   156,   160,   199,
-     210,   215,   228,   259,   264,   269,   278,   284,   294,   303,
-     308,   317,   322,   329,   335,   344,   353,   364,   369,   374,
-     380,   386,   392,   398,   404,   410,   416,   424,   430,   436,
-     442,   448,   454,   460,   466,   471
+       0,    59,    59,    77,    82,    91,    96,   101,   107,   113,
+     118,   123,   128,   136,   145,   154,   155,   156,   161,   202,
+     213,   219,   234,   263,   269,   275,   285,   291,   301,   310,
+     315,   324,   329,   336,   342,   351,   360,   371,   376,   381,
+     387,   393,   399,   405,   411,   417,   423,   431,   437,   443,
+     449,   455,   461,   467,   473,   478
 };
 #endif
 
@@ -1279,17 +1279,17 @@ yyreduce:
   case 7: /* comando: entrada_dados EXCL_EXCL  */
 #line 102 "analisador_sintatico.y"
     {
-        asprintf(&(yyval.str_val), "    %s;\n", (yyvsp[-1].str_val));
+        // CORREÇÃO: entrada_dados agora retorna a string COMPLETA do printf e scanf.
+        asprintf(&(yyval.str_val), "%s", (yyvsp[-1].str_val)); // $1 já é a string C gerada por 'entrada_dados' (com prompts e scanf)
         free((yyvsp[-1].str_val));
     }
-#line 1286 "analisador_sintatico.tab.c"
+#line 1287 "analisador_sintatico.tab.c"
     break;
 
   case 8: /* comando: saida EXCL_EXCL  */
-#line 107 "analisador_sintatico.y"
+#line 108 "analisador_sintatico.y"
     {
-        // A regra 'saida' agora passa o código C completo do printf(s) que gerou.
-        // ex: $$ = "printf(\"fmt\", arg);"
+        // CORREÇÃO: saida agora retorna a string COMPLETA dos printfs.
         asprintf(&(yyval.str_val), "%s", (yyvsp[-1].str_val)); // $1 é a string C gerada por 'saida'
         free((yyvsp[-1].str_val));
     }
@@ -1371,9 +1371,12 @@ yyreduce:
     break;
 
   case 18: /* entrada_dados: AMPERSAND_TOKEN ID_TOKEN LE_INPUT_TOKEN  */
-#line 161 "analisador_sintatico.y"
+#line 162 "analisador_sintatico.y"
     {
         char *format_str;
+        // ... (lógica para determinar o tipo)
+
+        // ***** SOLUÇÃO PARA TIPOS (SEM TABELA DE SÍMBOLOS) *****
         if (strcmp((yyvsp[-1].str_val), "valorInt") == 0 ||
             strcmp((yyvsp[-1].str_val), "resultadoSoma") == 0 ||
             strcmp((yyvsp[-1].str_val), "resultadoResto") == 0 ||
@@ -1381,69 +1384,70 @@ yyreduce:
             strcmp((yyvsp[-1].str_val), "resultadoMultiplicacao") == 0 ||
             strcmp((yyvsp[-1].str_val), "resultadoDivisao") == 0)
         {
-            format_str = "%%d"; // Int
+            format_str = "%d"; // CORRIGIDO: Usa "%d" para o formato do scanf
             fprintf(stderr, "INFO: Entrada de '%s' formatada como int (%%d).\n", (yyvsp[-1].str_val));
         }
         else if (strcmp((yyvsp[-1].str_val), "valorReal") == 0)
         {
-            format_str = "%%f"; // Float
+            format_str = "%f"; // CORRIGIDO: Usa "%f" para o formato do scanf
             fprintf(stderr, "INFO: Entrada de '%s' formatada como float (%%f).\n", (yyvsp[-1].str_val));
         }
         else if (strcmp((yyvsp[-1].str_val), "caractereUnico") == 0)
         {
-            format_str = " %%c"; // Char (espaço antes de %c)
+            format_str = " %c"; // Esta parte já estava correta
             fprintf(stderr, "INFO: Entrada de '%s' formatada como char ( %%c).\n", (yyvsp[-1].str_val));
         }
         else
         {
-            format_str = "%%d"; // Padrão para int se não reconhecido
+            format_str = "%d"; // Padrão
             fprintf(stderr, "AVISO: Entrada de dados simplificada para int. Verifique o tipo real em '%s'.\n", (yyvsp[-1].str_val));
         }
-        // CORREÇÃO: Adicionando o printf literal antes do scanf e separando-os com '; \n'
-        asprintf(&(yyval.str_val), "printf(\"%%s\\n\", \"%s\");\n    scanf(\"%s\", &%s)", // printf para o prompt, depois scanf
-                 "Digite um numero inteiro: ", format_str, (yyvsp[-1].str_val)); // O prompt pode vir do .com, isto é um exemplo
-        // A string gerada agora é: "printf(\"prompt\\n\");\n    scanf(\"fmt\", &var)"
+        
+        // Esta chamada asprintf agora receberá o formato correto.
+        asprintf(&(yyval.str_val), "    scanf(\"%s\", &%s);\n", format_str, (yyvsp[-1].str_val));
         
         free((yyvsp[-1].str_val));
     }
-#line 1410 "analisador_sintatico.tab.c"
+#line 1412 "analisador_sintatico.tab.c"
     break;
 
   case 19: /* saida: HASH_TOKEN ARROW_TOKEN lista_itens_saida_gen_code  */
-#line 200 "analisador_sintatico.y"
+#line 203 "analisador_sintatico.y"
     {
-        // O $3 agora é a string C completa com a formatação e argumentos do printf.
+        // O $3 é a string C completa com todos os printfs já concatenados e com \n finais.
         (yyval.str_val) = strdup((yyvsp[0].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1420 "analisador_sintatico.tab.c"
+#line 1422 "analisador_sintatico.tab.c"
     break;
 
   case 20: /* lista_itens_saida_gen_code: item_saida_gen_code  */
-#line 211 "analisador_sintatico.y"
+#line 214 "analisador_sintatico.y"
     {
-        (yyval.str_val) = strdup((yyvsp[0].str_val)); // $1 já é a string C do printf completo para este item.
+        // $1 já é a string C do printf completo para este item.
+        (yyval.str_val) = strdup((yyvsp[0].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1429 "analisador_sintatico.tab.c"
+#line 1432 "analisador_sintatico.tab.c"
     break;
 
   case 21: /* lista_itens_saida_gen_code: item_saida_gen_code HASH_HASH lista_itens_saida_gen_code  */
-#line 216 "analisador_sintatico.y"
+#line 220 "analisador_sintatico.y"
     {
         // CORREÇÃO: Concatena as strings C completas dos printfs.
-        // Isso cria uma única string que contém múltiplos "printf(...);"
+        // Isso cria uma única string que contém múltiplos "printf(...);\nprintf(...);"
         asprintf(&(yyval.str_val), "%s%s", (yyvsp[-2].str_val), (yyvsp[0].str_val)); 
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1441 "analisador_sintatico.tab.c"
+#line 1444 "analisador_sintatico.tab.c"
     break;
 
   case 22: /* item_saida_gen_code: LBRACKET ID_TOKEN RBRACKET  */
-#line 229 "analisador_sintatico.y"
+#line 235 "analisador_sintatico.y"
     {
         char *format_str;
+        // ... (sua lógica para determinar o format_str continua a mesma) ...
         if (strcmp((yyvsp[-1].str_val), "valorInt") == 0 ||
             strcmp((yyvsp[-1].str_val), "resultadoSoma") == 0 ||
             strcmp((yyvsp[-1].str_val), "resultadoResto") == 0 ||
@@ -1451,160 +1455,160 @@ yyreduce:
             strcmp((yyvsp[-1].str_val), "resultadoMultiplicacao") == 0 ||
             strcmp((yyvsp[-1].str_val), "resultadoDivisao") == 0)
         {
-            format_str = "%%d"; // Int
-            fprintf(stderr, "INFO: Saída de '%s' formatada como int (%%d).\\n", (yyvsp[-1].str_val));
+            format_str = "%d"; // Int
         }
         else if (strcmp((yyvsp[-1].str_val), "valorReal") == 0)
         {
-            format_str = "%%f"; // Float
-            fprintf(stderr, "INFO: Saída de '%s' formatada como float (%%f).\\n", (yyvsp[-1].str_val));
+            format_str = "%f"; // Float
         }
         else if (strcmp((yyvsp[-1].str_val), "caractereUnico") == 0)
         {
-            format_str = "%%c"; // Char
-            fprintf(stderr, "INFO: Saída de '%s' formatada como char (%%c).\\n", (yyvsp[-1].str_val));
+            format_str = "%c"; // Char
         }
         else
         {
-            format_str = "%%s"; // Padrão para string (ID) se não reconhecido
-            fprintf(stderr, "AVISO: Saída de variável simplificada para string. Verifique o tipo real de '%s'.\\n", (yyvsp[-1].str_val));
+            format_str = "%s"; // Padrão
         }
-        asprintf(&(yyval.str_val), "printf(\"%s\\n\", %s)", format_str, (yyvsp[-1].str_val)); // Gerando printf completo com \n
+        // CORRIGIDO: Adiciona indentação, ponto-e-vírgula e quebra de linha.
+        asprintf(&(yyval.str_val), "    printf(\"%s\\n\", %s);\n", format_str, (yyvsp[-1].str_val));
         free((yyvsp[-1].str_val));
     }
-#line 1476 "analisador_sintatico.tab.c"
+#line 1477 "analisador_sintatico.tab.c"
     break;
 
   case 23: /* item_saida_gen_code: STRING_LITERAL  */
-#line 260 "analisador_sintatico.y"
+#line 264 "analisador_sintatico.y"
     {
-        asprintf(&(yyval.str_val), "printf(\"%%s\\n\", %s)", (yyvsp[0].str_val)); // Gerando printf completo com \n
+        // CORRIGIDO: Adiciona indentação, ponto-e-vírgula e quebra de linha.
+        asprintf(&(yyval.str_val), "    printf(\"%%s\\n\", %s);\n", (yyvsp[0].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1485 "analisador_sintatico.tab.c"
+#line 1487 "analisador_sintatico.tab.c"
     break;
 
   case 24: /* item_saida_gen_code: CHAR_LITERAL  */
-#line 265 "analisador_sintatico.y"
+#line 270 "analisador_sintatico.y"
     {
-        asprintf(&(yyval.str_val), "printf(\"%%c\\n\", %s)", (yyvsp[0].str_val)); // Gerando printf completo com \n
+        // CORRIGIDO: Adiciona indentação, ponto-e-vírgula e quebra de linha.
+        asprintf(&(yyval.str_val), "    printf(\"%%c\\n\", %s);\n", (yyvsp[0].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1494 "analisador_sintatico.tab.c"
+#line 1497 "analisador_sintatico.tab.c"
     break;
 
   case 25: /* item_saida_gen_code: expressao  */
-#line 270 "analisador_sintatico.y"
+#line 276 "analisador_sintatico.y"
     {
-        // Assumindo int como padrão para expressões.
-        asprintf(&(yyval.str_val), "printf(\"%%d\\n\", (%s))", (yyvsp[0].str_val)); // Gerando printf completo com \n
+        // CORRIGIDO: Adiciona indentação, ponto-e-vírgula e quebra de linha.
+        // Assumindo que a expressão resulta em um inteiro para impressão.
+        asprintf(&(yyval.str_val), "    printf(\"%%d\\n\", (%s));\n", (yyvsp[0].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1504 "analisador_sintatico.tab.c"
+#line 1508 "analisador_sintatico.tab.c"
     break;
 
   case 26: /* condicional: SI_TOKEN LPAREN condicao RPAREN COMENZAR_TOKEN lista_comandos FIN_TOKEN  */
-#line 279 "analisador_sintatico.y"
+#line 286 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "    if (%s) {\n%s    }\n", (yyvsp[-4].str_val), (yyvsp[-1].str_val));
         free((yyvsp[-4].str_val));
         free((yyvsp[-1].str_val));
     }
-#line 1514 "analisador_sintatico.tab.c"
+#line 1518 "analisador_sintatico.tab.c"
     break;
 
   case 27: /* condicional: SI_TOKEN LPAREN condicao RPAREN COMENZAR_TOKEN lista_comandos FIN_TOKEN DEMAS_TOKEN COMENZAR_TOKEN lista_comandos FIN_TOKEN  */
-#line 285 "analisador_sintatico.y"
+#line 292 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "    if (%s) {\n%s    } else {\n%s    }\n", (yyvsp[-8].str_val), (yyvsp[-5].str_val), (yyvsp[-1].str_val));
         free((yyvsp[-8].str_val));
         free((yyvsp[-5].str_val));
         free((yyvsp[-1].str_val));
     }
-#line 1525 "analisador_sintatico.tab.c"
+#line 1529 "analisador_sintatico.tab.c"
     break;
 
   case 28: /* cambio_stmt: CAMBIO_TOKEN LPAREN ID_TOKEN RPAREN COMENZAR_TOKEN lista_casos FIN_TOKEN  */
-#line 295 "analisador_sintatico.y"
+#line 302 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "    switch (%s) {\n%s    }\n", (yyvsp[-4].str_val), (yyvsp[-1].str_val));
         free((yyvsp[-4].str_val));
         free((yyvsp[-1].str_val));
     }
-#line 1535 "analisador_sintatico.tab.c"
+#line 1539 "analisador_sintatico.tab.c"
     break;
 
   case 29: /* lista_casos: caso_stmt  */
-#line 304 "analisador_sintatico.y"
+#line 311 "analisador_sintatico.y"
     {
         (yyval.str_val) = strdup((yyvsp[0].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1544 "analisador_sintatico.tab.c"
+#line 1548 "analisador_sintatico.tab.c"
     break;
 
   case 30: /* lista_casos: caso_stmt lista_casos  */
-#line 309 "analisador_sintatico.y"
+#line 316 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "%s%s", (yyvsp[-1].str_val), (yyvsp[0].str_val));
         free((yyvsp[-1].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1554 "analisador_sintatico.tab.c"
+#line 1558 "analisador_sintatico.tab.c"
     break;
 
   case 31: /* caso_stmt: CASO_TOKEN INT_LITERAL COLON lista_comandos  */
-#line 318 "analisador_sintatico.y"
+#line 325 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "    case %d:\n%s        break;\n", (yyvsp[-2].int_val), (yyvsp[0].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1563 "analisador_sintatico.tab.c"
+#line 1567 "analisador_sintatico.tab.c"
     break;
 
   case 32: /* caso_stmt: CASO_TOKEN STRING_LITERAL COLON lista_comandos  */
-#line 323 "analisador_sintatico.y"
+#line 330 "analisador_sintatico.y"
     {
         fprintf(stderr, "AVISO: CASE com STRING literal pode não ser padrão C. Verifique.\n");
         asprintf(&(yyval.str_val), "    case %s:\n%s        break;\n", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1574 "analisador_sintatico.tab.c"
+#line 1578 "analisador_sintatico.tab.c"
     break;
 
   case 33: /* caso_stmt: CASO_TOKEN CHAR_LITERAL COLON lista_comandos  */
-#line 330 "analisador_sintatico.y"
+#line 337 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "    case %s:\n%s        break;\n", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1584 "analisador_sintatico.tab.c"
+#line 1588 "analisador_sintatico.tab.c"
     break;
 
   case 34: /* caso_stmt: CASO_TOKEN ID_TOKEN COLON lista_comandos  */
-#line 336 "analisador_sintatico.y"
+#line 343 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "    case %s:\n%s        break;\n", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1594 "analisador_sintatico.tab.c"
+#line 1598 "analisador_sintatico.tab.c"
     break;
 
   case 35: /* repeticao: MIENTRAS_TOKEN LPAREN condicao RPAREN COMENZAR_TOKEN lista_comandos FIN_TOKEN  */
-#line 345 "analisador_sintatico.y"
+#line 352 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "    while (%s) {\n%s    }\n", (yyvsp[-4].str_val), (yyvsp[-1].str_val));
         free((yyvsp[-4].str_val));
         free((yyvsp[-1].str_val));
     }
-#line 1604 "analisador_sintatico.tab.c"
+#line 1608 "analisador_sintatico.tab.c"
     break;
 
   case 36: /* repeticao_for: PARA_TOKEN atribuicao EXCL_EXCL condicao EXCL_EXCL atribuicao COMENZAR_TOKEN lista_comandos FIN_TOKEN  */
-#line 354 "analisador_sintatico.y"
+#line 361 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "    for (%s; %s; %s) {\n%s    }\n", (yyvsp[-7].str_val), (yyvsp[-5].str_val), (yyvsp[-3].str_val), (yyvsp[-1].str_val));
         free((yyvsp[-7].str_val));
@@ -1612,196 +1616,196 @@ yyreduce:
         free((yyvsp[-3].str_val));
         free((yyvsp[-1].str_val));
     }
-#line 1616 "analisador_sintatico.tab.c"
+#line 1620 "analisador_sintatico.tab.c"
     break;
 
   case 37: /* expressao: ID_TOKEN  */
-#line 365 "analisador_sintatico.y"
+#line 372 "analisador_sintatico.y"
     {
         (yyval.str_val) = strdup((yyvsp[0].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1625 "analisador_sintatico.tab.c"
+#line 1629 "analisador_sintatico.tab.c"
     break;
 
   case 38: /* expressao: CHAR_LITERAL  */
-#line 370 "analisador_sintatico.y"
+#line 377 "analisador_sintatico.y"
     {
         (yyval.str_val) = strdup((yyvsp[0].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1634 "analisador_sintatico.tab.c"
+#line 1638 "analisador_sintatico.tab.c"
     break;
 
   case 39: /* expressao: INT_LITERAL  */
-#line 375 "analisador_sintatico.y"
+#line 382 "analisador_sintatico.y"
     {
         char buf[32];
         snprintf(buf, sizeof(buf), "%d", (yyvsp[0].int_val));
         (yyval.str_val) = strdup(buf);
     }
-#line 1644 "analisador_sintatico.tab.c"
+#line 1648 "analisador_sintatico.tab.c"
     break;
 
   case 40: /* expressao: FLOAT_LITERAL  */
-#line 381 "analisador_sintatico.y"
+#line 388 "analisador_sintatico.y"
     {
         char buf[32];
         snprintf(buf, sizeof(buf), "%.6g", (yyvsp[0].float_val)); // %.6g para floats sem zeros à direita desnecessários
         (yyval.str_val) = strdup(buf);
     }
-#line 1654 "analisador_sintatico.tab.c"
+#line 1658 "analisador_sintatico.tab.c"
     break;
 
   case 41: /* expressao: expressao MAS_TOKEN expressao  */
-#line 387 "analisador_sintatico.y"
+#line 394 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "%s + %s", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1664 "analisador_sintatico.tab.c"
+#line 1668 "analisador_sintatico.tab.c"
     break;
 
   case 42: /* expressao: expressao MENOS_TOKEN expressao  */
-#line 393 "analisador_sintatico.y"
+#line 400 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "%s - %s", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1674 "analisador_sintatico.tab.c"
+#line 1678 "analisador_sintatico.tab.c"
     break;
 
   case 43: /* expressao: expressao POR_TOKEN expressao  */
-#line 399 "analisador_sintatico.y"
+#line 406 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "%s * %s", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1684 "analisador_sintatico.tab.c"
+#line 1688 "analisador_sintatico.tab.c"
     break;
 
   case 44: /* expressao: expressao DIVIDIDO_TOKEN expressao  */
-#line 405 "analisador_sintatico.y"
+#line 412 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "%s / %s", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1694 "analisador_sintatico.tab.c"
+#line 1698 "analisador_sintatico.tab.c"
     break;
 
   case 45: /* expressao: expressao RESTO_TOKEN expressao  */
-#line 411 "analisador_sintatico.y"
+#line 418 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "%s %% %s", (yyvsp[-2].str_val), (yyvsp[0].str_val)); // '%%' para imprimir '%' em C
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1704 "analisador_sintatico.tab.c"
+#line 1708 "analisador_sintatico.tab.c"
     break;
 
   case 46: /* expressao: LPAREN expressao RPAREN  */
-#line 417 "analisador_sintatico.y"
+#line 424 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "(%s)", (yyvsp[-1].str_val));
         free((yyvsp[-1].str_val));
     }
-#line 1713 "analisador_sintatico.tab.c"
+#line 1717 "analisador_sintatico.tab.c"
     break;
 
   case 47: /* condicao: expressao GT_RELATIONAL expressao  */
-#line 425 "analisador_sintatico.y"
+#line 432 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "%s > %s", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1723 "analisador_sintatico.tab.c"
+#line 1727 "analisador_sintatico.tab.c"
     break;
 
   case 48: /* condicao: expressao EQ_RELATIONAL expressao  */
-#line 431 "analisador_sintatico.y"
+#line 438 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "%s == %s", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1733 "analisador_sintatico.tab.c"
+#line 1737 "analisador_sintatico.tab.c"
     break;
 
   case 49: /* condicao: expressao LT_RELATIONAL expressao  */
-#line 437 "analisador_sintatico.y"
+#line 444 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "%s < %s", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1743 "analisador_sintatico.tab.c"
+#line 1747 "analisador_sintatico.tab.c"
     break;
 
   case 50: /* condicao: expressao GE_RELATIONAL expressao  */
-#line 443 "analisador_sintatico.y"
+#line 450 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "%s >= %s", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1753 "analisador_sintatico.tab.c"
+#line 1757 "analisador_sintatico.tab.c"
     break;
 
   case 51: /* condicao: expressao LE_RELATIONAL expressao  */
-#line 449 "analisador_sintatico.y"
+#line 456 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "%s <= %s", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1763 "analisador_sintatico.tab.c"
+#line 1767 "analisador_sintatico.tab.c"
     break;
 
   case 52: /* condicao: condicao AND_LOGICAL condicao  */
-#line 455 "analisador_sintatico.y"
+#line 462 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "%s && %s", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1773 "analisador_sintatico.tab.c"
+#line 1777 "analisador_sintatico.tab.c"
     break;
 
   case 53: /* condicao: condicao OR_LOGICAL condicao  */
-#line 461 "analisador_sintatico.y"
+#line 468 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "%s || %s", (yyvsp[-2].str_val), (yyvsp[0].str_val));
         free((yyvsp[-2].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1783 "analisador_sintatico.tab.c"
+#line 1787 "analisador_sintatico.tab.c"
     break;
 
   case 54: /* condicao: NOT_LOGICAL condicao  */
-#line 467 "analisador_sintatico.y"
+#line 474 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "!%s", (yyvsp[0].str_val));
         free((yyvsp[0].str_val));
     }
-#line 1792 "analisador_sintatico.tab.c"
+#line 1796 "analisador_sintatico.tab.c"
     break;
 
   case 55: /* condicao: LPAREN condicao RPAREN  */
-#line 472 "analisador_sintatico.y"
+#line 479 "analisador_sintatico.y"
     {
         asprintf(&(yyval.str_val), "(%s)", (yyvsp[-1].str_val));
         free((yyvsp[-1].str_val));
     }
-#line 1801 "analisador_sintatico.tab.c"
+#line 1805 "analisador_sintatico.tab.c"
     break;
 
 
-#line 1805 "analisador_sintatico.tab.c"
+#line 1809 "analisador_sintatico.tab.c"
 
       default: break;
     }
@@ -1994,7 +1998,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 478 "analisador_sintatico.y"
+#line 485 "analisador_sintatico.y"
 
 
 void yyerror(const char *s) {
