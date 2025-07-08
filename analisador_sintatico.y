@@ -2,10 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "defs.h" // Inclui a definição de YYSTYPE e outras globais
+#include "defs.h" 
 
 #ifndef _GNU_SOURCE
-#define _GNU_SOURCE // Habilita asprintf, se ainda não estiver definido
+#define _GNU_SOURCE 
 #endif
 
 extern int yylex();
@@ -15,8 +15,7 @@ void yyerror(const char *s);
 extern FILE *output_code_file;
 extern FILE *yyout_tokens;
 
-// A definição da union YYSTYPE agora está em "defs.h"
-// e é incluída por este arquivo via "defs.h".
+
 %}
 
 /* --- Seção de Declarações de Tokens e Precedências --- */
@@ -38,7 +37,7 @@ extern FILE *yyout_tokens;
 %token <int_val> INT_LITERAL
 %token <float_val> FLOAT_LITERAL
 
-// Declara o tipo para os símbolos não-terminais que precisam passar valores.
+
 %type <str_val> programa lista_comandos comando atribuicao declaracao entrada_dados saida condicional cambio_stmt lista_casos caso_stmt repeticao repeticao_for expressao condicao tipo lista_itens_saida_gen_code item_saida_gen_code
 
 
@@ -65,7 +64,7 @@ programa:
         fprintf(output_code_file, "#include <string.h>\n\n");
         
         fprintf(output_code_file, "int main() {\n");
-        fprintf(output_code_file, "%s", $2); // Código dos comandos
+        fprintf(output_code_file, "%s", $2); 
         fprintf(output_code_file, "    return 0;\n");
         fprintf(output_code_file, "}\n");
         
@@ -100,14 +99,12 @@ comando:
     }
     | entrada_dados EXCL_EXCL
     {
-        // CORREÇÃO: entrada_dados agora retorna a string COMPLETA do printf e scanf.
-        asprintf(&$$, "%s", $1); // $1 já é a string C gerada por 'entrada_dados' (com prompts e scanf)
+        asprintf(&$$, "%s", $1); 
         free($1);
     }
     | saida EXCL_EXCL
     {
-        // CORREÇÃO: saida agora retorna a string COMPLETA dos printfs.
-        asprintf(&$$, "%s", $1); // $1 é a string C gerada por 'saida'
+        asprintf(&$$, "%s", $1); 
         free($1);
     }
     | condicional
@@ -156,33 +153,31 @@ tipo:
     | CHR_TOKEN    { $$ = strdup("char"); }
     ;
 
-// Versão corrigida da regra de entrada
 entrada_dados:
     AMPERSAND_TOKEN ID_TOKEN LE_INPUT_TOKEN
     {
         char *format_str;
 
-        if (strcmp($2, "idade") == 0 || // Adicionado
+        if (strcmp($2, "idade") == 0 || 
             strcmp($2, "valorInt") == 0 ||
             strcmp($2, "limiteLoop") == 0 ||
-            // ...outros inteiros...
             strcmp($2, "resultadoDivisao") == 0)
         {
             format_str = "%d";
         }
-        else if (strcmp($2, "saldo") == 0 || // Adicionado
+        else if (strcmp($2, "saldo") == 0 || 
                  strcmp($2, "valorReal") == 0)
         {
             format_str = "%f";
         }
-        else if (strcmp($2, "categoria") == 0 || // Adicionado
+        else if (strcmp($2, "categoria") == 0 || 
                  strcmp($2, "caractereUnico") == 0)
         {
             format_str = " %c";
         }
         else
         {
-            format_str = "%d"; // Padrão
+            format_str = "%d"; 
         }
         
         asprintf(&$$, "    scanf(\"%s\", &%s);\n", format_str, $2);
@@ -190,50 +185,35 @@ entrada_dados:
     }
     ;
 
-// Regra 'saida' agora retorna a string C completa com todos os printfs concatenados.
 saida:
       HASH_TOKEN ARROW_TOKEN lista_itens_saida_gen_code
     {
-        // O $3 é a string C completa com todos os printfs já concatenados e com \n finais.
         $$ = strdup($3);
         free($3);
     }
     ;
-
-// Regra para a lista de itens de saída que GERA o código de printf diretamente.
-// Esta regra RETORNA a string C completa de um ou mais printfs.
 lista_itens_saida_gen_code:
       item_saida_gen_code
     {
-        // $1 já é a string C do printf completo para este item.
         $$ = strdup($1);
         free($1);
     }
     | item_saida_gen_code HASH_HASH lista_itens_saida_gen_code
     {
-        // CORREÇÃO: Concatena as strings C completas dos printfs.
-        // Isso cria uma única string que contém múltiplos "printf(...);\nprintf(...);"
         asprintf(&$$, "%s%s", $1, $3); 
         free($1);
         free($3);
     }
     ;
 
-// Regra para um único item de saída que GERA a string C do argumento/formato do printf.
-// Esta regra RETORNA a string C COMPLETA de um printf (ex: "printf(\"%d\\n\", var)").
-// Regra para um único item de saída que GERA a string C do argumento/formato do printf.
-// Esta regra RETORNA a string C COMPLETA de um printf (ex: "    printf(\"%d\\n\", var);\n").
-// Regra para um único item de saída
-// VERSÃO CORRETA E COMPLETA DA REGRA
-// VERSÃO CORRETA E COMPLETA DA REGRA item_saida_gen_code
 item_saida_gen_code:
     LBRACKET ID_TOKEN RBRACKET
     {
         char *format_str;
         
-        if (strcmp($2, "idade") == 0 ||           // <-- ADICIONADO
-            strcmp($2, "multiplicador") == 0 ||   // <-- ADICIONADO
-            strcmp($2, "resultadoLogico") == 0 || // <-- ADICIONADO
+        if (strcmp($2, "idade") == 0 ||           
+            strcmp($2, "multiplicador") == 0 ||   
+            strcmp($2, "resultadoLogico") == 0 || 
             strcmp($2, "valorInt") == 0 ||
             strcmp($2, "resultadoSoma") == 0 ||
             strcmp($2, "resultadoResto") == 0 ||
@@ -244,19 +224,18 @@ item_saida_gen_code:
             strcmp($2, "contadorFor") == 0 ||
             strcmp($2, "limiteLoop") == 0)
         {
-            format_str = "%d"; // Int
+            format_str = "%d"; 
         }
-        else if (strcmp($2, "saldo") == 0 ||     // <-- ADICIONADO
-                 strcmp($2, "taxaJuros") == 0 || // <-- ADICIONADO
+        else if (strcmp($2, "saldo") == 0 ||     
+                 strcmp($2, "taxaJuros") == 0 || 
                  strcmp($2, "valorReal") == 0)
         {
-            format_str = "%f"; // Float
+            format_str = "%f"; 
         }
-        else if (strcmp($2, "categoria") == 0 || // <-- ADICIONADO
+        else if (strcmp($2, "categoria") == 0 || 
                  strcmp($2, "caractereUnico") == 0)
         {
-            format_str = "%c"; // Char
-        }
+            format_str = "%c"; 
         else
         {
             format_str = "%s"; 
@@ -388,7 +367,7 @@ expressao:
     | FLOAT_LITERAL
     {
         char buf[32];
-        snprintf(buf, sizeof(buf), "%.6g", $1); // %.6g para floats sem zeros à direita desnecessários
+        snprintf(buf, sizeof(buf), "%.6g", $1); 
         $$ = strdup(buf);
     }
     | expressao MAS_TOKEN expressao
@@ -417,7 +396,7 @@ expressao:
     }
     | expressao RESTO_TOKEN expressao
     {
-        asprintf(&$$, "%s %% %s", $1, $3); // '%%' para imprimir '%' em C
+        asprintf(&$$, "%s %% %s", $1, $3); 
         free($1);
         free($3);
     }

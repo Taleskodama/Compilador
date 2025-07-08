@@ -55,3 +55,11 @@ Para executar o compilador e analisar um dos programas de exemplo, utilize o seg
 ./meu_compilador exemplo_entrada_saida.com
 ./meu_compilador exemplo_condicionais.com
 ./meu_compilador exemplo_repeticao.com
+
+## **Compilar o código traduzido**
+bash
+gcc -o programa_traduzido.c 
+
+## Testar o código 
+bash
+./programa_final
