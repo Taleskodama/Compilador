@@ -236,6 +236,7 @@ item_saida_gen_code:
                  strcmp($2, "caractereUnico") == 0)
         {
             format_str = "%c"; 
+             }
         else
         {
             format_str = "%s"; 
