@@ -4,11 +4,9 @@ comenzar
     chr categoria !!          
     ent multiplicador !!      
     real taxaJuros !!         
-    ent resultadoLogico !!    
-    ent valorReferencia !!    
+    ent resultadoLogico !!       
 
     taxaJuros := 0.05 !! 
-    valorReferencia := 20 !! 
 
     #=>"Digite sua idade: " !!
     & idade <= !!
@@ -50,8 +48,6 @@ comenzar
         caso 'C' :::
             #=>"Categoria C selecionada." !!
             multiplicador := multiplicador mas 0 !!
-        caso valorReferencia ::: 
-            #=>"Caso por valor de referencia!" !!
     fin
 
     #=>"Fim da demonstracao de Comandos Condicionais." !!

@@ -156,43 +156,36 @@ tipo:
     | CHR_TOKEN    { $$ = strdup("char"); }
     ;
 
-// Versão corrigida da regra
+// Versão corrigida da regra de entrada
 entrada_dados:
     AMPERSAND_TOKEN ID_TOKEN LE_INPUT_TOKEN
     {
         char *format_str;
-        // ... (lógica para determinar o tipo)
 
-        // ***** SOLUÇÃO PARA TIPOS (SEM TABELA DE SÍMBOLOS) *****
-        if (strcmp($2, "valorInt") == 0 ||
-            strcmp($2, "resultadoSoma") == 0 ||
-            strcmp($2, "resultadoResto") == 0 ||
-            strcmp($2, "resultadoSubtracao") == 0 ||
-            strcmp($2, "resultadoMultiplicacao") == 0 ||
+        if (strcmp($2, "idade") == 0 || // Adicionado
+            strcmp($2, "valorInt") == 0 ||
+            strcmp($2, "limiteLoop") == 0 ||
+            // ...outros inteiros...
             strcmp($2, "resultadoDivisao") == 0)
         {
-            format_str = "%d"; // CORRIGIDO: Usa "%d" para o formato do scanf
-            fprintf(stderr, "INFO: Entrada de '%s' formatada como int (%%d).\n", $2);
+            format_str = "%d";
         }
-        else if (strcmp($2, "valorReal") == 0)
+        else if (strcmp($2, "saldo") == 0 || // Adicionado
+                 strcmp($2, "valorReal") == 0)
         {
-            format_str = "%f"; // CORRIGIDO: Usa "%f" para o formato do scanf
-            fprintf(stderr, "INFO: Entrada de '%s' formatada como float (%%f).\n", $2);
+            format_str = "%f";
         }
-        else if (strcmp($2, "caractereUnico") == 0)
+        else if (strcmp($2, "categoria") == 0 || // Adicionado
+                 strcmp($2, "caractereUnico") == 0)
         {
-            format_str = " %c"; // Esta parte já estava correta
-            fprintf(stderr, "INFO: Entrada de '%s' formatada como char ( %%c).\n", $2);
+            format_str = " %c";
         }
         else
         {
             format_str = "%d"; // Padrão
-            fprintf(stderr, "AVISO: Entrada de dados simplificada para int. Verifique o tipo real em '%s'.\n", $2);
         }
         
-        // Esta chamada asprintf agora receberá o formato correto.
         asprintf(&$$, "    scanf(\"%s\", &%s);\n", format_str, $2);
-        
         free($2);
     }
     ;
@@ -230,57 +223,65 @@ lista_itens_saida_gen_code:
 // Esta regra RETORNA a string C COMPLETA de um printf (ex: "printf(\"%d\\n\", var)").
 // Regra para um único item de saída que GERA a string C do argumento/formato do printf.
 // Esta regra RETORNA a string C COMPLETA de um printf (ex: "    printf(\"%d\\n\", var);\n").
+// Regra para um único item de saída
+// VERSÃO CORRETA E COMPLETA DA REGRA
+// VERSÃO CORRETA E COMPLETA DA REGRA item_saida_gen_code
 item_saida_gen_code:
     LBRACKET ID_TOKEN RBRACKET
     {
         char *format_str;
-        // ... (sua lógica para determinar o format_str continua a mesma) ...
-        if (strcmp($2, "valorInt") == 0 ||
+        
+        if (strcmp($2, "idade") == 0 ||           // <-- ADICIONADO
+            strcmp($2, "multiplicador") == 0 ||   // <-- ADICIONADO
+            strcmp($2, "resultadoLogico") == 0 || // <-- ADICIONADO
+            strcmp($2, "valorInt") == 0 ||
             strcmp($2, "resultadoSoma") == 0 ||
             strcmp($2, "resultadoResto") == 0 ||
             strcmp($2, "resultadoSubtracao") == 0 ||
             strcmp($2, "resultadoMultiplicacao") == 0 ||
-            strcmp($2, "resultadoDivisao") == 0)
+            strcmp($2, "resultadoDivisao") == 0 ||
+            strcmp($2, "contadorWhile") == 0 ||
+            strcmp($2, "contadorFor") == 0 ||
+            strcmp($2, "limiteLoop") == 0)
         {
             format_str = "%d"; // Int
         }
-        else if (strcmp($2, "valorReal") == 0)
+        else if (strcmp($2, "saldo") == 0 ||     // <-- ADICIONADO
+                 strcmp($2, "taxaJuros") == 0 || // <-- ADICIONADO
+                 strcmp($2, "valorReal") == 0)
         {
             format_str = "%f"; // Float
         }
-        else if (strcmp($2, "caractereUnico") == 0)
+        else if (strcmp($2, "categoria") == 0 || // <-- ADICIONADO
+                 strcmp($2, "caractereUnico") == 0)
         {
             format_str = "%c"; // Char
         }
         else
         {
-            format_str = "%s"; // Padrão
+            format_str = "%s"; 
+            fprintf(stderr, "AVISO: Saída de variável simplificada para string. Verifique o tipo real de '%s'.\n", $2);
         }
-        // CORRIGIDO: Adiciona indentação, ponto-e-vírgula e quebra de linha.
+
         asprintf(&$$, "    printf(\"%s\\n\", %s);\n", format_str, $2);
         free($2);
     }
     | STRING_LITERAL
     {
-        // CORRIGIDO: Adiciona indentação, ponto-e-vírgula e quebra de linha.
         asprintf(&$$, "    printf(\"%%s\\n\", %s);\n", $1);
         free($1);
     }
     | CHAR_LITERAL
     {
-        // CORRIGIDO: Adiciona indentação, ponto-e-vírgula e quebra de linha.
         asprintf(&$$, "    printf(\"%%c\\n\", %s);\n", $1);
         free($1);
     }
     | expressao
     {
-        // CORRIGIDO: Adiciona indentação, ponto-e-vírgula e quebra de linha.
-        // Assumindo que a expressão resulta em um inteiro para impressão.
         asprintf(&$$, "    printf(\"%%d\\n\", (%s));\n", $1);
         free($1);
     }
     ;
-
 condicional:
       SI_TOKEN LPAREN condicao RPAREN COMENZAR_TOKEN lista_comandos FIN_TOKEN
     {
