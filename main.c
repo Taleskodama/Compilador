@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "defs.h"
 #include "analisador_sintatico.tab.h"
 
 extern YYSTYPE yylval; 
-extern FILE *yyout_tokens; 
-extern FILE *output_code_file; 
+FILE *yyout_tokens; 
+FILE *output_code_file;
 extern int yylineno; 
 extern FILE *yyin; 
 extern int yylex(); 

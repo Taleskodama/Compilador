@@ -2,10 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "defs.h"
 #include "analisador_sintatico.tab.h"  
 
 extern YYSTYPE yylval;
-FILE *yyout_tokens;
+extern FILE *yyout_tokens;
 %}
 
 %option noyywrap

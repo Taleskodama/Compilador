@@ -1,110 +1,196 @@
 comenzar -> delimitador de bloco: iniciar
 ent -> tipo de dado: inteiro
-contadorWhile -> identificador
+idade -> identificador
+!! -> fim de instrução/sentença
+real -> tipo de dado: real
+saldo -> identificador
+!! -> fim de instrução/sentença
+chr -> tipo de dado: caractere
+categoria -> identificador
 !! -> fim de instrução/sentença
 ent -> tipo de dado: inteiro
-contadorFor -> identificador
+multiplicador -> identificador
+!! -> fim de instrução/sentença
+real -> tipo de dado: real
+taxaJuros -> identificador
 !! -> fim de instrução/sentença
 ent -> tipo de dado: inteiro
-limiteLoop -> identificador
+resultadoLogico -> identificador
+!! -> fim de instrução/sentença
+ent -> tipo de dado: inteiro
+valorReferencia -> identificador
+!! -> fim de instrução/sentença
+taxaJuros -> identificador
+:= -> operador de atribuição
+0.05 -> número real
+!! -> fim de instrução/sentença
+valorReferencia -> identificador
+:= -> operador de atribuição
+20 -> número inteiro
 !! -> fim de instrução/sentença
 # -> símbolo de saída
 => -> operador de saída (exibição)
-"Defina o limite maximo para os loops (ex: 5): " -> string literal
+"Digite sua idade: " -> string literal
 !! -> fim de instrução/sentença
 & -> símbolo de entrada
-limiteLoop -> identificador
+idade -> identificador
 <= -> operador de entrada (leitura)
 !! -> fim de instrução/sentença
 # -> símbolo de saída
 => -> operador de saída (exibição)
-"Iniciando loop WHILE:" -> string literal
+"Digite seu saldo: " -> string literal
 !! -> fim de instrução/sentença
-contadorWhile -> identificador
-:= -> operador de atribuição
-1 -> número inteiro
-!! -> fim de instrução/sentença
-mientras -> comando de repetição: while
-@{ -> parêntese esquerdo
-contadorWhile -> identificador
-[* -> operador relacional: menor ou igual
-limiteLoop -> identificador
-}@ -> parêntese direito
-comenzar -> delimitador de bloco: iniciar
-# -> símbolo de saída
-=> -> operador de saída (exibição)
-"  WHILE Iteracao: " -> string literal
-## -> separador de itens
-[ -> parêntese reto esquerdo
-contadorWhile -> identificador
-] -> parêntese reto direito
-!! -> fim de instrução/sentença
-contadorWhile -> identificador
-:= -> operador de atribuição
-contadorWhile -> identificador
-mas -> operador aritmético: soma
-1 -> número inteiro
-!! -> fim de instrução/sentença
-fin -> delimitador de bloco: finalizar
-# -> símbolo de saída
-=> -> operador de saída (exibição)
-"Loop WHILE finalizado." -> string literal
+& -> símbolo de entrada
+saldo -> identificador
+<= -> operador de entrada (leitura)
 !! -> fim de instrução/sentença
 # -> símbolo de saída
 => -> operador de saída (exibição)
-"Iniciando loop FOR:" -> string literal
+"Digite a categoria (A, B, C): " -> string literal
 !! -> fim de instrução/sentença
-para -> comando de repetição: for
-contadorFor -> identificador
-:= -> operador de atribuição
-1 -> número inteiro
+& -> símbolo de entrada
+categoria -> identificador
+<= -> operador de entrada (leitura)
 !! -> fim de instrução/sentença
-contadorFor -> identificador
-<< -> operador relacional: menor que
-limiteLoop -> identificador
-<<>> -> operador lógico: AND
-contadorFor -> identificador
->> -> operador relacional: maior que
-0 -> número inteiro
-!! -> fim de instrução/sentença
-contadorFor -> identificador
-:= -> operador de atribuição
-contadorFor -> identificador
-mas -> operador aritmético: soma
-1 -> número inteiro
-comenzar -> delimitador de bloco: iniciar
 si -> comando condicional: if
 @{ -> parêntese esquerdo
-contadorFor -> identificador
-= -> operador relacional: igual a
-3 -> número inteiro
+idade -> identificador
+>> -> operador relacional: maior que
+18 -> número inteiro
+<<>> -> operador lógico: AND
+saldo -> identificador
+[* -> operador relacional: menor ou igual
+1000.0 -> número real
 }@ -> parêntese direito
 comenzar -> delimitador de bloco: iniciar
 # -> símbolo de saída
 => -> operador de saída (exibição)
-"    Valor e 3." -> string literal
+"Acesso permitido ou condicoes favoraveis!" -> string literal
+!! -> fim de instrução/sentença
+multiplicador -> identificador
+:= -> operador de atribuição
+idade -> identificador
+por -> operador aritmético: multiplicação
+2 -> número inteiro
+!! -> fim de instrução/sentença
+resultadoLogico -> identificador
+:= -> operador de atribuição
+1 -> número inteiro
 !! -> fim de instrução/sentença
 fin -> delimitador de bloco: finalizar
 demas -> comando condicional: else
 comenzar -> delimitador de bloco: iniciar
 # -> símbolo de saída
 => -> operador de saída (exibição)
-"    Valor nao e 3." -> string literal
+"Acesso negado ou condicoes desfavoraveis." -> string literal
 !! -> fim de instrução/sentença
-fin -> delimitador de bloco: finalizar
-contadorFor -> identificador
+multiplicador -> identificador
 := -> operador de atribuição
-contadorFor -> identificador
-por -> operador aritmético: multiplicação
+idade -> identificador
+dividido -> operador aritmético: divisão
+2 -> número inteiro
+!! -> fim de instrução/sentença
+resultadoLogico -> identificador
+:= -> operador de atribuição
+0 -> número inteiro
+!! -> fim de instrução/sentença
+fin -> delimitador de bloco: finalizar
+si -> comando condicional: if
+@{ -> parêntese esquerdo
+resultadoLogico -> identificador
+= -> operador relacional: igual a
 1 -> número inteiro
+<|> -> operador lógico: OR
+!~ -> operador lógico: NOT
+@{ -> parêntese esquerdo
+idade -> identificador
+<< -> operador relacional: menor que
+10 -> número inteiro
+}@ -> parêntese direito
+}@ -> parêntese direito
+comenzar -> delimitador de bloco: iniciar
+# -> símbolo de saída
+=> -> operador de saída (exibição)
+"Condicao secundaria complexa verdadeira!" -> string literal
+!! -> fim de instrução/sentença
+fin -> delimitador de bloco: finalizar
+demas -> comando condicional: else
+comenzar -> delimitador de bloco: iniciar
+# -> símbolo de saída
+=> -> operador de saída (exibição)
+"Condicao secundaria complexa falsa!" -> string literal
 !! -> fim de instrução/sentença
 fin -> delimitador de bloco: finalizar
 # -> símbolo de saída
 => -> operador de saída (exibição)
-"Loop FOR finalizado." -> string literal
+"Multiplicador atual: " -> string literal
+## -> separador de itens
+[ -> parêntese reto esquerdo
+multiplicador -> identificador
+] -> parêntese reto direito
 !! -> fim de instrução/sentença
 # -> símbolo de saída
 => -> operador de saída (exibição)
-"Fim da demonstracao de Comandos de Repeticao." -> string literal
+"Taxa de Juros: " -> string literal
+## -> separador de itens
+[ -> parêntese reto esquerdo
+taxaJuros -> identificador
+] -> parêntese reto direito
+!! -> fim de instrução/sentença
+cambio -> comando condicional: switch
+@{ -> parêntese esquerdo
+categoria -> identificador
+}@ -> parêntese direito
+comenzar -> delimitador de bloco: iniciar
+caso -> comando condicional: case
+'A' -> caractere literal
+::: -> dois pontos
+# -> símbolo de saída
+=> -> operador de saída (exibição)
+"Categoria A selecionada." -> string literal
+!! -> fim de instrução/sentença
+multiplicador -> identificador
+:= -> operador de atribuição
+multiplicador -> identificador
+mas -> operador aritmético: soma
+10 -> número inteiro
+!! -> fim de instrução/sentença
+caso -> comando condicional: case
+'B' -> caractere literal
+::: -> dois pontos
+# -> símbolo de saída
+=> -> operador de saída (exibição)
+"Categoria B selecionada." -> string literal
+!! -> fim de instrução/sentença
+multiplicador -> identificador
+:= -> operador de atribuição
+multiplicador -> identificador
+menos -> operador aritmético: subtração
+5 -> número inteiro
+!! -> fim de instrução/sentença
+caso -> comando condicional: case
+'C' -> caractere literal
+::: -> dois pontos
+# -> símbolo de saída
+=> -> operador de saída (exibição)
+"Categoria C selecionada." -> string literal
+!! -> fim de instrução/sentença
+multiplicador -> identificador
+:= -> operador de atribuição
+multiplicador -> identificador
+mas -> operador aritmético: soma
+0 -> número inteiro
+!! -> fim de instrução/sentença
+caso -> comando condicional: case
+valorReferencia -> identificador
+::: -> dois pontos
+# -> símbolo de saída
+=> -> operador de saída (exibição)
+"Caso por valor de referencia!" -> string literal
+!! -> fim de instrução/sentença
+fin -> delimitador de bloco: finalizar
+# -> símbolo de saída
+=> -> operador de saída (exibição)
+"Fim da demonstracao de Comandos Condicionais." -> string literal
 !! -> fim de instrução/sentença
 fin -> delimitador de bloco: finalizar

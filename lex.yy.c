@@ -557,12 +557,13 @@ char *yytext;
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "defs.h"
 #include "analisador_sintatico.tab.h"  
 
 extern YYSTYPE yylval;
-FILE *yyout_tokens;
-#line 565 "lex.yy.c"
+extern FILE *yyout_tokens;
 #line 566 "lex.yy.c"
+#line 567 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -779,10 +780,10 @@ YY_DECL
 		}
 
 	{
-#line 21 "analisador_lexico.l"
+#line 22 "analisador_lexico.l"
 
 
-#line 786 "lex.yy.c"
+#line 787 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -851,87 +852,87 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 23 "analisador_lexico.l"
+#line 24 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> tipo de dado: inteiro\n", yytext); return ENT_TOKEN; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 24 "analisador_lexico.l"
+#line 25 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> tipo de dado: real\n", yytext); return REAL_TOKEN; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 25 "analisador_lexico.l"
+#line 26 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> tipo de dado: caractere\n", yytext); return CHR_TOKEN; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 27 "analisador_lexico.l"
+#line 28 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> comando condicional: if\n", yytext); return SI_TOKEN; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 28 "analisador_lexico.l"
+#line 29 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> comando condicional: else\n", yytext); return DEMAS_TOKEN; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 29 "analisador_lexico.l"
+#line 30 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> comando condicional: switch\n", yytext); return CAMBIO_TOKEN; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 30 "analisador_lexico.l"
+#line 31 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> comando condicional: case\n", yytext); return CASO_TOKEN; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 32 "analisador_lexico.l"
+#line 33 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> comando de repetição: while\n", yytext); return MIENTRAS_TOKEN; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 33 "analisador_lexico.l"
+#line 34 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> comando de repetição: for\n", yytext); return PARA_TOKEN; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 35 "analisador_lexico.l"
+#line 36 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> operador aritmético: soma\n", yytext); return MAS_TOKEN; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 36 "analisador_lexico.l"
+#line 37 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> operador aritmético: subtração\n", yytext); return MENOS_TOKEN; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 37 "analisador_lexico.l"
+#line 38 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> operador aritmético: multiplicação\n", yytext); return POR_TOKEN; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 38 "analisador_lexico.l"
+#line 39 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> operador aritmético: divisão\n", yytext); return DIVIDIDO_TOKEN; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 39 "analisador_lexico.l"
+#line 40 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> operador aritmético: resto da divisão\n", yytext); return RESTO_TOKEN; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 41 "analisador_lexico.l"
+#line 42 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> delimitador de bloco: iniciar\n", yytext); return COMENZAR_TOKEN; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 42 "analisador_lexico.l"
+#line 43 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> delimitador de bloco: finalizar\n", yytext); return FIN_TOKEN; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 44 "analisador_lexico.l"
+#line 45 "analisador_lexico.l"
 {
     fprintf(yyout_tokens, "%s -> identificador\n", yytext);
     yylval.str_val = strdup(yytext);
@@ -940,7 +941,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 49 "analisador_lexico.l"
+#line 50 "analisador_lexico.l"
 {
     fprintf(yyout_tokens, "%s -> número inteiro\n", yytext);
     yylval.int_val = atoi(yytext);
@@ -949,7 +950,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 54 "analisador_lexico.l"
+#line 55 "analisador_lexico.l"
 {
     fprintf(yyout_tokens, "%s -> número real\n", yytext);
     yylval.float_val = atof(yytext);
@@ -958,119 +959,119 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 60 "analisador_lexico.l"
+#line 61 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> operador de atribuição\n", yytext); return ATRIB_TOKEN; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 61 "analisador_lexico.l"
+#line 62 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> símbolo de entrada\n", yytext); return AMPERSAND_TOKEN; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 62 "analisador_lexico.l"
+#line 63 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> operador de entrada (leitura)\n", yytext); return LE_INPUT_TOKEN; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 63 "analisador_lexico.l"
+#line 64 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> símbolo de saída\n", yytext); return HASH_TOKEN; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 64 "analisador_lexico.l"
+#line 65 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> operador de saída (exibição)\n", yytext); return ARROW_TOKEN; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 65 "analisador_lexico.l"
+#line 66 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> parêntese reto esquerdo\n", yytext); return LBRACKET; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 66 "analisador_lexico.l"
+#line 67 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> parêntese reto direito\n", yytext); return RBRACKET; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 67 "analisador_lexico.l"
+#line 68 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> separador de itens\n", yytext); return HASH_HASH; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 68 "analisador_lexico.l"
+#line 69 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> fim de instrução/sentença\n", yytext); return EXCL_EXCL; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 69 "analisador_lexico.l"
+#line 70 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> quebra de linha\n", yytext); return SEMI_SEMI; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 70 "analisador_lexico.l"
+#line 71 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> parêntese esquerdo\n", yytext); return LPAREN; } 
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 71 "analisador_lexico.l"
+#line 72 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> parêntese direito\n", yytext); return RPAREN; } 
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 72 "analisador_lexico.l"
+#line 73 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> dois pontos\n", yytext); return COLON; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 74 "analisador_lexico.l"
+#line 75 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> operador relacional: maior que\n", yytext); return GT_RELATIONAL; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 75 "analisador_lexico.l"
+#line 76 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> operador relacional: menor ou igual\n", yytext); return LE_RELATIONAL; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 76 "analisador_lexico.l"
+#line 77 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> operador relacional: maior ou igual\n", yytext); return GE_RELATIONAL; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 77 "analisador_lexico.l"
+#line 78 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> operador relacional: menor que\n", yytext); return LT_RELATIONAL; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 78 "analisador_lexico.l"
+#line 79 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> operador relacional: igual a\n", yytext); return EQ_RELATIONAL; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 80 "analisador_lexico.l"
+#line 81 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> operador lógico: AND\n", yytext); return AND_LOGICAL; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 81 "analisador_lexico.l"
+#line 82 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> operador lógico: OR\n", yytext); return OR_LOGICAL; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 82 "analisador_lexico.l"
+#line 83 "analisador_lexico.l"
 { fprintf(yyout_tokens, "%s -> operador lógico: NOT\n", yytext); return NOT_LOGICAL; }
 	YY_BREAK
 case 41:
 /* rule 41 can match eol */
 YY_RULE_SETUP
-#line 84 "analisador_lexico.l"
+#line 85 "analisador_lexico.l"
 {  }
 	YY_BREAK
 case 42:
 /* rule 42 can match eol */
 YY_RULE_SETUP
-#line 86 "analisador_lexico.l"
+#line 87 "analisador_lexico.l"
 {
     fprintf(yyout_tokens, "%s -> string literal\n", yytext);
     yylval.str_val = strdup(yytext);
@@ -1079,7 +1080,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 91 "analisador_lexico.l"
+#line 92 "analisador_lexico.l"
 {
     fprintf(yyout_tokens, "%s -> caractere literal\n", yytext);
     yylval.str_val = strdup(yytext); 
@@ -1088,7 +1089,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 97 "analisador_lexico.l"
+#line 98 "analisador_lexico.l"
 {
     fprintf(stderr, "Erro léxico na linha %d: caractere ou sequência inválida '%s'\n", yylineno, yytext);
     return -1;
@@ -1096,10 +1097,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 102 "analisador_lexico.l"
+#line 103 "analisador_lexico.l"
 ECHO;
 	YY_BREAK
-#line 1103 "lex.yy.c"
+#line 1104 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2116,7 +2117,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 102 "analisador_lexico.l"
+#line 103 "analisador_lexico.l"
 
 
 #undef yywrap
